@@ -1,0 +1,2278 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    104302,       2270]
+NotebookOptionsPosition[     95431,       2098]
+NotebookOutlinePosition[     95784,       2114]
+CellTagsIndexPosition[     95741,       2111]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Minimax at TicTacToe", "Title",
+ CellChangeTimes->{{3.81746295299433*^9, 3.817462970574029*^9}, {
+  3.817650632267681*^9, 
+  3.8176506414684553`*^9}},ExpressionUUID->"44875a3a-6bd3-4bd0-90d6-\
+1de7edafad95"],
+
+Cell["\<\
+\:0441\:0442\:0443\:0434\:0435\:043d\:0442 3 \:043a\:0443\:0440\:0441\:0430 5 \
+\:0433\:0440\:0443\:043f\:043f\:044b
+\:041b\:0438\:0446\:043a\:0435\:0432\:0438\:0447 \:0414\:0430\:043d\:0438\
+\:043b\:0430
+20-12-2020\
+\>", "Text",
+ CellChangeTimes->{{3.8123506941218166`*^9, 3.812350697070899*^9}, {
+  3.813572972463131*^9, 3.8135729750318384`*^9}, {3.814189795680554*^9, 
+  3.814189796809917*^9}, {3.816596448264989*^9, 3.81659644983867*^9}, {
+  3.817222540246895*^9, 3.817222540434901*^9}, {3.817462998879303*^9, 
+  3.8174630171834507`*^9}},
+ TextAlignment->Right,
+ TextJustification->0,ExpressionUUID->"73b1c18e-52ff-4d75-b9e6-299db7c9fb1c"],
+
+Cell[CellGroupData[{
+
+Cell["0. Info", "Chapter",
+ CellChangeTimes->{{3.817463037068174*^9, 
+  3.81746304655403*^9}},ExpressionUUID->"c2fb55bf-75b6-489e-b9a5-\
+261ac30075f6"],
+
+Cell[TextData[{
+ "\:0412\:0434\:043e\:0445\:043d\:043e\:0432\:0438\:043b\:0441\:044f \:0446\
+\:0438\:043a\:043b\:043e\:043c ",
+ ButtonBox["\:0441\:0442\:0430\:0442\:0435\:0439.",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-1-\
+introduction/"], None},
+  ButtonNote->
+   "https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-1-\
+introduction/"],
+ " "
+}], "Text",
+ CellChangeTimes->{{3.817463050215275*^9, 
+  3.817463108959392*^9}},ExpressionUUID->"ac0c58e9-4b27-452b-bc08-\
+b624973f67fc"],
+
+Cell["\<\
+\:041d\:0430 \:043f\:0440\:0438\:043c\:0435\:0440\:0435 TicTacToe \
+\:0440\:0435\:0430\:043b\:0438\:0437\:043e\:0432\:0430\:043d\:044b \:0434\
+\:0432\:0430 \:0430\:043b\:0433\:043e\:0440\:0438\:0442\:043c\:0430: minimax \
+\:0438 minimax-\[Alpha]\[Beta] (alpha-beta pruning variant)\
+\>", "Text",
+ CellChangeTimes->{{3.81765026216744*^9, 
+  3.8176503495265703`*^9}},ExpressionUUID->"ba6238df-6aa2-4190-b118-\
+d6b9eaced2cb"],
+
+Cell["\<\
+\:041e\:0431\:0430 \:0430\:043b\:0433\:043e\:0440\:0438\:0442\:043c\:0430 \
+\:0440\:0430\:0431\:043e\:0442\:0430\:044e\:0442 \:043a\:043e\:0440\:0440\
+\:0435\:043a\:0442\:043d\:043e, \:043e\:0434\:043d\:0430\:043a\:043e \:043e\
+\:0431\:044b\:0447\:043d\:044b\:0439 minimax \:0440\:0430\:0431\:043e\:0442\
+\:0430\:0435\:0442 \:0437\:0430\:043c\:0435\:0442\:043d\:043e \:043c\:0435\
+\:0434\:043b\:0435\:043d\:0435\:0435, \:0447\:0435\:043c minimax-\[Alpha]\
+\[Beta] (\:0447\:0442\:043e \:0438 \:043e\:0436\:0438\:0434\:0430\:043b\:043e\
+\:0441\:044c)\
+\>", "Text",
+ CellChangeTimes->{{3.81765026216744*^9, 3.8176504080661793`*^9}, {
+  3.817650507304317*^9, 
+  3.817650521912071*^9}},ExpressionUUID->"ecb6d9d8-66ea-412e-9604-\
+c3296bf0bf20"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["0. Future plans", "Chapter",
+ CellChangeTimes->{{3.817463037068174*^9, 3.81746304655403*^9}, {
+  3.817463133212543*^9, 
+  3.8174631361262283`*^9}},ExpressionUUID->"1f985bc7-380b-4116-b572-\
+12f9465b0ee2"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["\:0412\:043e\:0437\:043c\:043e\:0436\:043d\:044b\:0435\
+ \:0438\:0433\:0440\:044b (2-player)", "Subsubsection"]], "Subsection",
+ CellChangeTimes->{{3.817463050215275*^9, 3.817463108959392*^9}, {
+  3.817463141360701*^9, 3.817463157779333*^9}, {3.817463237822736*^9, 
+  3.817463278617283*^9}, {3.817646200197967*^9, 3.817646223308064*^9}, {
+  3.8176464391021233`*^9, 
+  3.8176464585677633`*^9}},ExpressionUUID->"b2a19018-b9d7-4308-aa93-\
+653b0023ef61"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ ButtonBox["Ultimate TicTacToe 9x9",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe"], None},
+  ButtonNote->"https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe"],
+ " (pretty difficult)"
+}], "Item",
+ CellChangeTimes->{{3.817463050215275*^9, 3.817463108959392*^9}, {
+   3.817463141360701*^9, 3.817463157779333*^9}, {3.817463237822736*^9, 
+   3.817463278617283*^9}, 3.817646238260667*^9, {3.8176462788813763`*^9, 
+   3.817646314400736*^9}, {3.817648208741563*^9, 
+   3.8176482195576563`*^9}},ExpressionUUID->"39a1efd8-b1dc-4c81-91c8-\
+f3aa3ac36d43"],
+
+Cell[TextData[ButtonBox["Y (game)",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["https://en.wikipedia.org/wiki/Y_%28game%29"], None},
+ ButtonNote->"https://en.wikipedia.org/wiki/Y_%28game%29"]], "Item",
+ CellChangeTimes->{{3.817648181799391*^9, 
+  3.817648189437413*^9}},ExpressionUUID->"b997324d-0c27-44f9-8303-\
+1af08909ee3c"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["\:0412\:043e\:0437\:043c\:043e\:0436\:043d\:044b\:0435\
+ \:0438\:0433\:0440\:044b (1-player)", "Subsubsection"]], "Subsection",
+ CellChangeTimes->{{3.817463050215275*^9, 3.817463108959392*^9}, {
+  3.817463141360701*^9, 3.817463157779333*^9}, {3.817463237822736*^9, 
+  3.817463278617283*^9}, {3.817646200197967*^9, 3.817646223308064*^9}, {
+  3.8176464391021233`*^9, 
+  3.817646462813648*^9}},ExpressionUUID->"53bf3f4e-8a6a-40cf-aeb1-\
+72c6cbedfcb8"],
+
+Cell[CellGroupData[{
+
+Cell["Nonogram", "Item",
+ CellChangeTimes->{{3.817463050215275*^9, 3.817463108959392*^9}, {
+   3.817463141360701*^9, 3.817463157779333*^9}, {3.817463237822736*^9, 
+   3.817463278617283*^9}, 3.817646238260667*^9, {3.8176462788813763`*^9, 
+   3.817646333927433*^9}},ExpressionUUID->"7b3ef008-8737-4a34-bad4-\
+6f3c15eaf7b2"],
+
+Cell["Sudoku", "Item",
+ CellChangeTimes->{{3.817463050215275*^9, 3.817463108959392*^9}, {
+   3.817463141360701*^9, 3.817463157779333*^9}, {3.817463237822736*^9, 
+   3.817463278617283*^9}, 3.817646238260667*^9, {3.8176462788813763`*^9, 
+   3.8176463427173567`*^9}},ExpressionUUID->"fdb01b23-c902-4729-a1da-\
+b99735819863"],
+
+Cell["MineSweeper", "Item",
+ CellChangeTimes->{{3.817463050215275*^9, 3.817463108959392*^9}, {
+   3.817463141360701*^9, 3.817463157779333*^9}, {3.817463237822736*^9, 
+   3.817463278617283*^9}, 3.817646238260667*^9, {3.8176462788813763`*^9, 
+   3.817646353722217*^9}},ExpressionUUID->"850b8cfb-f43b-483e-a1b6-\
+7e374131a7cb"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[TextData[StyleBox["\:0412\:0438\:0437\:0443\:0430\:043b\:0438\:0437\:0430\
+\:0446\:0438\:044f \:043f\:0440\:043e\:0446\:0435\:0441\:0441\:0430 \:0432\
+\:044b\:0431\:043e\:0440\:0430 \:0434\:0435\:0439\:0441\:0442\:0432\:0438\
+\:0439 (decision making tree)", "Subsubsection"]], "Subsection",
+ CellChangeTimes->{{3.817463050215275*^9, 3.817463108959392*^9}, {
+  3.817463141360701*^9, 3.817463157779333*^9}, {3.817463237822736*^9, 
+  3.817463278617283*^9}, {3.817646200197967*^9, 3.817646223308064*^9}, {
+  3.817646363942747*^9, 
+  3.817646389407999*^9}},ExpressionUUID->"9fb6e63e-590b-4d13-8156-\
+ea83ec6fa6cc"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["\:0420\:0430\:0441\:0441\:043c\:043e\:0442\:0440\:0435\
+\:0442\:044c \:0434\:0440\:0443\:0433\:0438\:0435 \:0430\:043b\:0433\:043e\
+\:0440\:0438\:0442\:043c\:044b (\:0432\:043e\:0437\:043c\:043e\:0436\:043d\
+\:044b\:0435)", "Subsubsection"]], "Subsection",
+ CellChangeTimes->{{3.817463050215275*^9, 3.817463108959392*^9}, {
+  3.817463141360701*^9, 3.817463157779333*^9}, {3.817463237822736*^9, 
+  3.817463278617283*^9}, {3.817646200197967*^9, 3.817646223308064*^9}, {
+  3.817646363942747*^9, 3.817646412100459*^9}, {3.817649749083744*^9, 
+  3.817649762384408*^9}},ExpressionUUID->"f3f4c205-4b78-430c-9471-\
+94e256c31bf8"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[ButtonBox["SSS*",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["https://en.wikipedia.org/wiki/SSS*"], None},
+ ButtonNote->"https://en.wikipedia.org/wiki/SSS*"]], "Item",
+ CellChangeTimes->{
+  3.817649712194277*^9, {3.817649743828912*^9, 
+   3.817649743831954*^9}},ExpressionUUID->"168daf44-5155-45eb-bfc6-\
+3d8fc6a6dea9"],
+
+Cell[TextData[ButtonBox["Principal variation search",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["https://en.wikipedia.org/wiki/Principal_variation_search"], None},
+ ButtonNote->
+  "https://en.wikipedia.org/wiki/Principal_variation_search"]], "Item",
+ CellChangeTimes->{{3.817649729010497*^9, 
+  3.817649745679599*^9}},ExpressionUUID->"5849334f-6665-4537-a6e5-\
+01f66fa42193"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[TextData[StyleBox["\:0420\:0435\:0430\:043b\:0438\:0437\:043e\:0432\:0430\
+\:0442\:044c \:0432\:0435\:0431 \:0432\:0435\:0440\:0441\:0438\:044e", \
+"Subsubsection"]], "Subsection",
+ CellChangeTimes->{{3.817463050215275*^9, 3.817463108959392*^9}, {
+  3.817463141360701*^9, 3.817463157779333*^9}, {3.817463237822736*^9, 
+  3.817463278617283*^9}, {3.817646200197967*^9, 3.817646223308064*^9}, {
+  3.817646363942747*^9, 
+  3.817646424448058*^9}},ExpressionUUID->"25539d6f-d15b-4187-b52d-\
+aa694001ad32"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["1. TicTacToe (making game)", "Chapter",
+ CellChangeTimes->{{3.817462935826641*^9, 3.8174629475298147`*^9}, {
+  3.817463120107418*^9, 3.817463124607194*^9}, {3.817650719610292*^9, 
+  3.8176507524621363`*^9}},ExpressionUUID->"a32318d4-f932-42ab-8416-\
+3d2fff0add37"],
+
+Cell[CellGroupData[{
+
+Cell["Game init", "Subchapter",
+ CellChangeTimes->{{3.817463209545269*^9, 
+  3.817463214361939*^9}},ExpressionUUID->"ac985a42-7617-4563-a4e5-\
+b688046412ed"],
+
+Cell[CellGroupData[{
+
+Cell["Board creation", "Subsection",
+ CellChangeTimes->{{3.817463423129416*^9, 
+  3.817463427881804*^9}},ExpressionUUID->"75d775ab-f868-4ca8-9761-\
+9e0c6c900701"],
+
+Cell[BoxData[{
+ RowBox[{"SetAttributes", "[", 
+  RowBox[{"TicTacToe", ",", "HoldAll"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"TicTacToe", "[", "\"\<start\>\"", "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"\[LeftAssociation]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"\"\<turn\>\"", "\[Rule]", "0"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"\"\<won\>\"", "\[Rule]", "False"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"\"\<board\>\"", "\[Rule]", 
+     RowBox[{"ConstantArray", "[", 
+      RowBox[{"0", ",", 
+       RowBox[{"{", 
+        RowBox[{"3", ",", "3"}], "}"}]}], "]"}]}]}], "\[IndentingNewLine]", 
+   "\[RightAssociation]"}]}]}], "Input",
+ CellChangeTimes->{{3.817463281611579*^9, 3.817463348975194*^9}, {
+   3.817463383659452*^9, 3.817463386741486*^9}, {3.817463480802373*^9, 
+   3.817463500023286*^9}, {3.8174648214940434`*^9, 3.81746482409632*^9}, {
+   3.8174649043645563`*^9, 3.817464904608809*^9}, {3.817465023790504*^9, 
+   3.817465040942227*^9}, {3.817465148554826*^9, 3.817465150305894*^9}, {
+   3.8174662777004747`*^9, 3.8174662797621117`*^9}, 3.8174822756605473`*^9},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[1]:=",ExpressionUUID->"b2ae8e08-9b5e-478c-950a-4d5a456b5823"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Win cheking", "Subsection",
+ CellChangeTimes->{{3.817463423129416*^9, 3.817463427881804*^9}, {
+  3.8174634648990307`*^9, 3.817463467951199*^9}, {3.8174650153732977`*^9, 
+  3.817465018191605*^9}},ExpressionUUID->"2ce33930-1682-492e-9bc8-\
+d1b217a292a7"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"TicTacToe", "[", 
+    RowBox[{"\"\<winCheck\>\"", ",", "ttt_Symbol"}], "]"}], ":=", 
+   "\[IndentingNewLine]", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+      "ttt", "\[LeftDoubleBracket]", "\"\<won\>\"", "\[RightDoubleBracket]"}],
+       "=!=", "False"}], ",", "\"\<game's finished\>\"", ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"With", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"board", "=", 
+         RowBox[{"ttt", "[", "\"\<board\>\"", "]"}]}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"Which", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"MemberQ", "[", 
+             RowBox[{"#", ",", "3"}], "]"}], ",", 
+            RowBox[{
+             RowBox[{
+             "ttt", "\[LeftDoubleBracket]", "\"\<won\>\"", 
+              "\[RightDoubleBracket]"}], "=", "1"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"MemberQ", "[", 
+             RowBox[{"#", ",", "6"}], "]"}], ",", 
+            RowBox[{
+             RowBox[{
+             "ttt", "\[LeftDoubleBracket]", "\"\<won\>\"", 
+              "\[RightDoubleBracket]"}], "=", "2"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Total", "[", 
+              RowBox[{"board", ",", "2"}], "]"}], "\[Equal]", "13"}], ",", 
+            RowBox[{
+             RowBox[{
+             "ttt", "\[LeftDoubleBracket]", "\"\<won\>\"", 
+              "\[RightDoubleBracket]"}], "=", "0"}]}], "]"}], "&"}], "[", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Total", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"Select", "[", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Join", "[", 
+              RowBox[{"board", ",", 
+               RowBox[{"Transpose", "[", "board", "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"Diagonal", "[", "board", "]"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"Diagonal", "[", 
+                 RowBox[{"Reverse", "@", "board"}], "]"}], "}"}]}], "]"}], 
+             ",", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"And", "@@", 
+               RowBox[{"Thread", "[", 
+                RowBox[{"#", ">", "0"}], "]"}]}], "&"}]}], 
+            "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"{", "2", "}"}]}], "\[IndentingNewLine]", "]"}], "]"}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+    "]"}]}], "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.817463281611579*^9, 3.817463348975194*^9}, {
+   3.817463383659452*^9, 3.817463386741486*^9}, {3.817463480802373*^9, 
+   3.817463500023286*^9}, {3.8174648214940434`*^9, 3.81746482409632*^9}, {
+   3.8174649043645563`*^9, 3.817464904608809*^9}, {3.817465023790504*^9, 
+   3.817465040942227*^9}, {3.817465148554826*^9, 3.817465276249222*^9}, {
+   3.817465314462153*^9, 3.817465393837764*^9}, {3.817465615460184*^9, 
+   3.817465621295806*^9}, {3.8174656855825863`*^9, 3.817465724103005*^9}, {
+   3.817465819720475*^9, 3.817465848759263*^9}, {3.817465888635563*^9, 
+   3.817465902653558*^9}, {3.8174660461308537`*^9, 3.817466047403006*^9}, {
+   3.817466082921852*^9, 3.817466178369577*^9}, {3.817466434483549*^9, 
+   3.817466439571364*^9}, {3.817466481757908*^9, 3.817466535331739*^9}, {
+   3.8174666221704893`*^9, 3.817466689071001*^9}, {3.817466729657392*^9, 
+   3.817466733153688*^9}, {3.817466767526402*^9, 3.817466826140353*^9}, {
+   3.8174668636237183`*^9, 3.8174668700681143`*^9}, {3.817466905086155*^9, 
+   3.817466908321419*^9}, {3.8174669687471027`*^9, 3.817467103688974*^9}, 
+   3.817467255833625*^9, {3.817485492052758*^9, 3.8174855089858847`*^9}, {
+   3.817485564474682*^9, 3.8174856320031147`*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[3]:=",ExpressionUUID->"c7459829-ff0b-48b7-b6b2-434d0a108c4b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Move making", "Subsection",
+ CellChangeTimes->{{3.817463423129416*^9, 3.817463427881804*^9}, {
+  3.8174634648990307`*^9, 
+  3.817463467951199*^9}},ExpressionUUID->"16ffb179-c2e0-4e60-8dc4-\
+4834e7abb0eb"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TicTacToe", "[", 
+   RowBox[{"\"\<move\>\"", ",", "ttt_Symbol", ",", "position_List"}], "]"}], ":=",
+   "\[IndentingNewLine]", 
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"ttt", "[", "\"\<won\>\"", "]"}], "===", "False"}], "&&", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"ttt", "[", "\"\<board\>\"", "]"}], "\[LeftDoubleBracket]", 
+       RowBox[{"Sequence", "@@", "position"}], "\[RightDoubleBracket]"}], 
+      "\[Equal]", "0"}]}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"ttt", "\[LeftDoubleBracket]", 
+       RowBox[{"\"\<board\>\"", ",", 
+        RowBox[{"Sequence", "@@", "position"}]}], "\[RightDoubleBracket]"}], 
+      "=", 
+      RowBox[{"1", "+", 
+       RowBox[{"Mod", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], "++"}], ",", "2"}], 
+        "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"TicTacToe", "[", 
+      RowBox[{"\"\<winCheck\>\"", ",", "ttt"}], "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.817463281611579*^9, 3.817463348975194*^9}, {
+   3.817463383659452*^9, 3.817463386741486*^9}, {3.8174635162359667`*^9, 
+   3.8174636113934107`*^9}, {3.817463697358056*^9, 3.817463703337103*^9}, {
+   3.8174638611645613`*^9, 3.817463998114504*^9}, {3.817464059088797*^9, 
+   3.817464083455476*^9}, {3.817464115577796*^9, 3.817464129431506*^9}, {
+   3.817464777183216*^9, 3.817464801829544*^9}, 3.817464849870632*^9, {
+   3.817465085026537*^9, 3.817465114019084*^9}, 3.817465153920467*^9, {
+   3.8174662181763983`*^9, 3.817466275037512*^9}, {3.817467312948801*^9, 
+   3.817467313983382*^9}, {3.817540536640407*^9, 3.817540539240921*^9}, {
+   3.8175405718072023`*^9, 3.81754057507528*^9}, 3.817540648944633*^9, {
+   3.817540683189025*^9, 3.817540684645751*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[4]:=",ExpressionUUID->"a5741d0a-e668-4bb4-ab0f-9c572c962bc0"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Game visualisation", "Subchapter",
+ CellChangeTimes->{{3.817463209545269*^9, 
+  3.817463222478924*^9}},ExpressionUUID->"24ee62ce-1ab1-4a6d-9d24-\
+4b089983ee96"],
+
+Cell[CellGroupData[{
+
+Cell["Visualizasion of board", "Subsection",
+ CellChangeTimes->{{3.81747969479878*^9, 
+  3.817479700809567*^9}},ExpressionUUID->"18b909eb-8582-4074-88df-\
+cb4272fd61ec"],
+
+Cell[CellGroupData[{
+
+Cell["Board Labeling", "Subsubsection",
+ CellChangeTimes->{{3.81747969479878*^9, 3.8174797069860897`*^9}, {
+  3.817482665713252*^9, 
+  3.817482680527834*^9}},ExpressionUUID->"db8e2f85-2b26-44e6-8b54-\
+1ab2ac6a4e30"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"LabelTTT", "[", "ttt_", "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ttt", "[", "\"\<won\>\"", "]"}], "===", "False"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"StringJoin", "[", 
+     RowBox[{
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"1", "+", 
+          RowBox[{"Mod", "[", 
+           RowBox[{
+            RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], "]"}]}], 
+         "\[Equal]", "1"}], ",", "\"\<X\>\"", ",", "\"\<O\>\""}], "]"}], ",", 
+      "\"\< Turn\>\""}], "]"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"Switch", "[", 
+     RowBox[{
+      RowBox[{"ttt", "[", "\"\<won\>\"", "]"}], ",", "0", ",", "\"\<Draw\>\"",
+       ",", "1", ",", "\"\<X Won\>\"", ",", "2", ",", " ", "\"\<O Won\>\"", 
+      ",", "True", ",", "\"\<Unexpexted Behaviour\>\""}], "]"}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.817479708826521*^9, 3.817479766902608*^9}, {
+   3.817480012245908*^9, 3.817480093225222*^9}, 3.817480161375016*^9, {
+   3.817480678834507*^9, 3.8174807278101597`*^9}, {3.817480839274107*^9, 
+   3.817480841457695*^9}, {3.81748268287924*^9, 3.817482827096664*^9}, {
+   3.81748309124319*^9, 3.817483097627385*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[5]:=",ExpressionUUID->"347060e1-e95a-4fac-bb9c-806df4243276"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Cross primitive", "Subsubsection",
+ CellChangeTimes->{{3.81747969479878*^9, 3.8174797069860897`*^9}, {
+  3.817482665713252*^9, 
+  3.817482669370953*^9}},ExpressionUUID->"b8962d9e-89c4-4463-a65f-\
+a0fdb04888d7"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"CrossTTT", "[", 
+   RowBox[{
+    RowBox[{"coord", ":", 
+     RowBox[{"{", 
+      RowBox[{"_", ",", "_"}], "}"}]}], ",", "r_"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Line", "[", 
+   RowBox[{"Insert", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"coord", "+", "#"}], "&"}], "/@", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"N", "[", "r", "]"}], 
+        RowBox[{"CirclePoints", "[", "4", "]"}]}], ")"}]}], ",", "coord", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", "2", "}"}], ",", 
+       RowBox[{"{", "3", "}"}], ",", 
+       RowBox[{"{", "4", "}"}]}], "}"}]}], "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.817479708826521*^9, 3.817479766902608*^9}, {
+   3.817480012245908*^9, 3.817480093225222*^9}, 3.817480161375016*^9, {
+   3.817480678834507*^9, 3.8174807278101597`*^9}, {3.817480839274107*^9, 
+   3.817480841457695*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[6]:=",ExpressionUUID->"695f267a-82ef-4a25-8b6c-ba7108725531"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Visualisation", "Subsubsection",
+ CellChangeTimes->{{3.817482647882115*^9, 
+  3.817482652748171*^9}},ExpressionUUID->"9c24f5fd-82fd-40e1-9d40-\
+6e1b13046ac5"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TicTacToe", "[", 
+   RowBox[{"\"\<visualisation\>\"", ",", "ttt_Symbol"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"With", "[", 
+   RowBox[{
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"crosses", "=", 
+       RowBox[{
+        RowBox[{"Position", "[", 
+         RowBox[{
+          RowBox[{"ttt", "[", "\"\<board\>\"", "]"}], ",", "1"}], "]"}], "-", 
+        ".5"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"circles", "=", 
+       RowBox[{
+        RowBox[{"Position", "[", 
+         RowBox[{
+          RowBox[{"ttt", "[", "\"\<board\>\"", "]"}], ",", "2"}], "]"}], "-", 
+        ".5"}]}]}], "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+    
+    RowBox[{"Labeled", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"Graphics", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"{", "\[IndentingNewLine]", 
+         RowBox[{"Red", ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"CrossTTT", "[", 
+             RowBox[{"#", ",", "0.4"}], "]"}], "&"}], "/@", "crosses"}], ",", 
+          "\[IndentingNewLine]", "Blue", ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Circle", "[", 
+             RowBox[{"#", ",", "0.4"}], "]"}], "&"}], "/@", "circles"}]}], 
+         "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"PlotRange", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "0.1"}], ",", "3.1"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "0.1"}], ",", "3.1"}], "}"}]}], "}"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"GridLines", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Range", "[", 
+            RowBox[{"0", ",", "3"}], "]"}], ",", " ", 
+           RowBox[{"Range", "[", 
+            RowBox[{"0", ",", "4"}], "]"}]}], "}"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ImageSize", "\[Rule]", "Small"}]}], "\[IndentingNewLine]", 
+       "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"LabelTTT", "[", "ttt", "]"}], ",", "\[IndentingNewLine]", 
+      "Top"}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.817463281611579*^9, 3.817463348975194*^9}, {
+   3.817463383659452*^9, 3.817463386741486*^9}, {3.8174635162359667`*^9, 
+   3.8174636113934107`*^9}, {3.817463697358056*^9, 3.817463703337103*^9}, {
+   3.8174638611645613`*^9, 3.817463998114504*^9}, {3.817464059088797*^9, 
+   3.817464083455476*^9}, {3.817464115577796*^9, 3.817464129431506*^9}, {
+   3.817464777183216*^9, 3.817464801829544*^9}, 3.817464849870632*^9, {
+   3.817465085026537*^9, 3.817465114019084*^9}, 3.817465153920467*^9, {
+   3.8174662181763983`*^9, 3.817466275037512*^9}, {3.817467312948801*^9, 
+   3.817467313983382*^9}, {3.817478886913508*^9, 3.817478908101369*^9}, {
+   3.81747894687777*^9, 3.817479041478735*^9}, {3.8174790739093637`*^9, 
+   3.817479240647584*^9}, {3.817479271785612*^9, 3.817479300426736*^9}, 
+   3.8174793455813704`*^9, {3.817479395973516*^9, 3.817479396741897*^9}, {
+   3.817479474226112*^9, 3.8174795135470533`*^9}, {3.817479546935424*^9, 
+   3.81747959889567*^9}, 3.8174807174592867`*^9, {3.817482455525828*^9, 
+   3.8174826076779757`*^9}, {3.8174827749025784`*^9, 3.817482776538578*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[7]:=",ExpressionUUID->"e1f93091-ffc0-4b5a-a4c2-111141e3189b"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Interaction", "Subsection",
+ CellChangeTimes->{{3.817481259204513*^9, 
+  3.8174812661617804`*^9}},ExpressionUUID->"42530c27-888e-4317-8fb3-\
+245974738781"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TicTacToe", "[", 
+   RowBox[{"\"\<interaction\>\"", ",", "ttt_Symbol"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"ClickPane", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"Dynamic", "@", 
+       RowBox[{"TicTacToe", "[", 
+        RowBox[{"\"\<visualisation\>\"", ",", "ttt"}], "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"(", "\[IndentingNewLine]", 
+        RowBox[{"TicTacToe", "[", 
+         RowBox[{"\"\<move\>\"", ",", "ttt", ",", 
+          RowBox[{"Evaluate", "[", 
+           RowBox[{"Round", "[", 
+            RowBox[{"#", "+", "0.5"}], "]"}], "]"}]}], "]"}], 
+        "\[IndentingNewLine]", ")"}], "&"}]}], "]"}]}], "\[IndentingNewLine]",
+    "]"}]}]], "Input",
+ CellChangeTimes->{{3.817463281611579*^9, 3.817463348975194*^9}, {
+   3.817463383659452*^9, 3.817463386741486*^9}, {3.8174635162359667`*^9, 
+   3.8174636113934107`*^9}, {3.817463697358056*^9, 3.817463703337103*^9}, {
+   3.8174638611645613`*^9, 3.817463998114504*^9}, {3.817464059088797*^9, 
+   3.817464083455476*^9}, {3.817464115577796*^9, 3.817464129431506*^9}, {
+   3.817464777183216*^9, 3.817464801829544*^9}, 3.817464849870632*^9, {
+   3.817465085026537*^9, 3.817465114019084*^9}, 3.817465153920467*^9, {
+   3.8174662181763983`*^9, 3.817466275037512*^9}, {3.817467312948801*^9, 
+   3.817467313983382*^9}, {3.817478886913508*^9, 3.817478908101369*^9}, {
+   3.81747894687777*^9, 3.817479041478735*^9}, {3.8174790739093637`*^9, 
+   3.817479240647584*^9}, {3.817479271785612*^9, 3.817479300426736*^9}, 
+   3.8174793455813704`*^9, {3.817479395973516*^9, 3.817479396741897*^9}, {
+   3.817479474226112*^9, 3.8174795135470533`*^9}, {3.817479546935424*^9, 
+   3.81747959889567*^9}, 3.8174807174592867`*^9, {3.8174812776997213`*^9, 
+   3.817481280658893*^9}, {3.81748135182663*^9, 3.81748144506569*^9}, {
+   3.817481484272073*^9, 3.8174814979460917`*^9}, {3.81748156621402*^9, 
+   3.817481634717101*^9}, {3.8174816820505342`*^9, 3.817481686648734*^9}, {
+   3.817481738002775*^9, 3.8174817577298813`*^9}, {3.817481809480851*^9, 
+   3.8174818389170427`*^9}, {3.817482006439329*^9, 3.817482022870064*^9}, {
+   3.8174821320114937`*^9, 3.817482146419614*^9}, {3.817482331543583*^9, 
+   3.8174823520234737`*^9}, {3.8174824272153597`*^9, 3.817482449290661*^9}, {
+   3.817483170860976*^9, 3.817483210405602*^9}, 3.81748328641068*^9, {
+   3.817483369467897*^9, 3.817483384094862*^9}, {3.817483749833619*^9, 
+   3.817483752068894*^9}, {3.817483784674518*^9, 3.817483784876657*^9}, {
+   3.8174838774986563`*^9, 3.8174838873226213`*^9}, {3.817484797402018*^9, 
+   3.817484803659136*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[8]:=",ExpressionUUID->"534749ed-f352-4686-982e-98f5e9d88aed"]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Game manual (without computer)", "Subchapter",
+ CellChangeTimes->{{3.817463209545269*^9, 3.817463222478924*^9}, 
+   3.817482964053069*^9, {3.8175654445494623`*^9, 
+   3.817565462789688*^9}},ExpressionUUID->"e392c088-bb12-4f7a-a61c-\
+fe9edb65e63d"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TicTacToe", "[", "\"\<play\>\"", "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"DynamicModule", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"ttt", "=", 
+      RowBox[{"TicTacToe", "[", "\"\<start\>\"", "]"}]}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Labeled", "[", 
+     RowBox[{
+      RowBox[{"TicTacToe", "[", 
+       RowBox[{"\"\<interaction\>\"", ",", "ttt"}], "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<Restart\>\"", ",", 
+        RowBox[{"ttt", "=", 
+         RowBox[{"TicTacToe", "[", "\"\<start\>\"", "]"}]}]}], "]"}], ",", 
+      "Bottom"}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.817463281611579*^9, 3.817463348975194*^9}, {
+   3.817463383659452*^9, 3.817463386741486*^9}, {3.8174635162359667`*^9, 
+   3.8174636113934107`*^9}, {3.817463697358056*^9, 3.817463703337103*^9}, {
+   3.8174638611645613`*^9, 3.817463998114504*^9}, {3.817464059088797*^9, 
+   3.817464083455476*^9}, {3.817464115577796*^9, 3.817464129431506*^9}, {
+   3.817464777183216*^9, 3.817464801829544*^9}, 3.817464849870632*^9, {
+   3.817465085026537*^9, 3.817465114019084*^9}, 3.817465153920467*^9, {
+   3.8174662181763983`*^9, 3.817466275037512*^9}, {3.817467312948801*^9, 
+   3.817467313983382*^9}, {3.817478886913508*^9, 3.817478908101369*^9}, {
+   3.81747894687777*^9, 3.817479041478735*^9}, {3.8174790739093637`*^9, 
+   3.817479240647584*^9}, {3.817479271785612*^9, 3.817479300426736*^9}, 
+   3.8174793455813704`*^9, {3.817479395973516*^9, 3.817479396741897*^9}, {
+   3.817479474226112*^9, 3.8174795135470533`*^9}, {3.817479546935424*^9, 
+   3.81747959889567*^9}, 3.8174807174592867`*^9, {3.8174812776997213`*^9, 
+   3.817481280658893*^9}, {3.81748135182663*^9, 3.81748144506569*^9}, {
+   3.817481484272073*^9, 3.8174814979460917`*^9}, {3.81748156621402*^9, 
+   3.817481634717101*^9}, {3.8174816820505342`*^9, 3.817481686648734*^9}, {
+   3.817481738002775*^9, 3.8174817577298813`*^9}, {3.817481809480851*^9, 
+   3.8174818389170427`*^9}, {3.817482006439329*^9, 3.817482022870064*^9}, {
+   3.8174821320114937`*^9, 3.817482146419614*^9}, {3.817482331543583*^9, 
+   3.8174823520234737`*^9}, {3.8174824272153597`*^9, 3.817482449290661*^9}, {
+   3.817482970492597*^9, 3.8174829745215*^9}, {3.8174830231443768`*^9, 
+   3.817483065066918*^9}, {3.817483248361306*^9, 3.817483279729589*^9}, {
+   3.817483972557137*^9, 3.817483985588641*^9}, {3.8174840519216948`*^9, 
+   3.8174841095571136`*^9}, {3.8174841720606422`*^9, 3.817484176123947*^9}, {
+   3.8174842100538816`*^9, 3.8174842388990307`*^9}, {3.8174844275165997`*^9, 
+   3.817484430452395*^9}, {3.8174846168335037`*^9, 3.817484625984828*^9}, {
+   3.817484724495892*^9, 3.817484784611779*^9}, {3.81748488532159*^9, 
+   3.8174848890382967`*^9}, {3.817484940363678*^9, 3.8174849637351017`*^9}, {
+   3.817485083925465*^9, 3.817485098886294*^9}, {3.817485255602976*^9, 
+   3.8174853450285788`*^9}, {3.817485384718361*^9, 3.8174854487017517`*^9}, {
+   3.817539560412266*^9, 3.817539607328065*^9}, {3.817539654408536*^9, 
+   3.81753965482867*^9}, {3.817539768974656*^9, 3.817539852254862*^9}, {
+   3.81753992029795*^9, 3.8175399291269827`*^9}, {3.817542338885539*^9, 
+   3.8175423428132687`*^9}, {3.8175423853129263`*^9, 3.817542424195537*^9}, {
+   3.817545313604574*^9, 3.817545322915296*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[9]:=",ExpressionUUID->"884dba0b-2c5e-4be8-bd6f-8184264844ce"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["", "Subchapter",
+ CellChangeTimes->{{3.817463209545269*^9, 3.817463222478924*^9}, 
+   3.817482964053069*^9, {3.8175654445494623`*^9, 3.817565462789688*^9}, 
+   3.8176507621603107`*^9},ExpressionUUID->"84163340-231f-4876-8dde-\
+45a5ae28f72d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"TicTacToe", "[", "\"\<play\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.817484734421307*^9, 3.817484735270499*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"0362e0d4-59e5-47be-9481-5eb51b86ba7c"],
+
+Cell[BoxData[
+ DynamicModuleBox[{$CellContext`ttt$$ = Association[
+  "turn" -> 5, "won" -> 1, "board" -> {{1, 1, 1}, {0, 0, 2}, {2, 0, 0}}]}, 
+  TemplateBox[{TagBox[
+     DynamicBox[
+      ToBoxes[
+       $CellContext`TicTacToe["visualisation", $CellContext`ttt$$], 
+       StandardForm]], 
+     EventHandlerTag[{
+      "MouseClicked" :> ($CellContext`TicTacToe["move", $CellContext`ttt$$, 
+         Evaluate[
+          Round[# + 0.5]]]& )[
+         MousePosition["EventHandlerAutomatic"]], Method -> "Preemptive", 
+       PassEventsDown -> Automatic, PassEventsUp -> True}]],ButtonBox[
+    "\"Restart\"", 
+     ButtonFunction :> ($CellContext`ttt$$ = $CellContext`TicTacToe["start"]),
+      Appearance -> Automatic, Evaluator -> Automatic, Method -> 
+     "Preemptive"]},
+   "Labeled",
+   DisplayFunction->(GridBox[{{
+       TagBox[
+        ItemBox[
+         PaneBox[
+          TagBox[#, "SkipImageSizeLevel"], Alignment -> {Center, Baseline}, 
+          BaselinePosition -> Baseline], DefaultBaseStyle -> "Labeled"], 
+        "SkipImageSizeLevel"]}, {
+       ItemBox[#2, DefaultBaseStyle -> "LabeledLabel"]}}, 
+     GridBoxAlignment -> {"Columns" -> {{Center}}, "Rows" -> {{Center}}}, 
+     AutoDelete -> False, 
+     GridBoxItemSize -> {"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+      BaselinePosition -> {1, 1}]& ),
+   InterpretationFunction->(RowBox[{"Labeled", "[", 
+      RowBox[{#, ",", #2, ",", "Bottom"}], "]"}]& )],
+  DynamicModuleValues:>{}]], "Output",
+ CellChangeTimes->{{3.817485441411427*^9, 3.81748545327319*^9}, 
+   3.8175391792047453`*^9, {3.817539566128929*^9, 3.817539609034779*^9}, {
+   3.817539646872139*^9, 3.817539656519341*^9}, 3.8175397030203047`*^9, {
+   3.817539771536635*^9, 3.817539790805688*^9}, {3.817539824560408*^9, 
+   3.817539838230525*^9}, 3.817539930679294*^9, {3.817540543414111*^9, 
+   3.817540588052731*^9}, {3.817542348250143*^9, 3.817542388998252*^9}, 
+   3.817542427809*^9, {3.8175452870539103`*^9, 3.817545324946793*^9}, 
+   3.817564093147345*^9, 3.81756530417824*^9, 3.817565523794532*^9, 
+   3.817642863337908*^9, 3.817644471596178*^9, 3.817645941672411*^9, 
+   3.817646080324053*^9, 3.817647452046411*^9, 3.817649830078299*^9, 
+   3.817650891012726*^9, 3.817655343251108*^9},
+ CellLabel->"Out[10]=",ExpressionUUID->"14cd7508-130f-4dcb-ad44-cb237bf7594b"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["2. Minimax algorithms", "Chapter",
+ CellChangeTimes->{{3.817462935826641*^9, 3.8174629475298147`*^9}, {
+   3.817463166297681*^9, 3.817463166430215*^9}, 3.817478924706214*^9, 
+   3.817650773322403*^9},ExpressionUUID->"3a770689-0367-4446-8308-\
+035e7c20ed8a"],
+
+Cell[CellGroupData[{
+
+Cell["Available moves and score function", "Subchapter",
+ CellChangeTimes->{{3.8175391886709967`*^9, 3.8175392095546427`*^9}, {
+  3.817539894717305*^9, 3.81753990173542*^9}, {3.8175403263210173`*^9, 
+  3.817540333764316*^9}, {3.817646000653084*^9, 
+  3.817646020879133*^9}},ExpressionUUID->"f6974bc4-04fc-4388-b151-\
+f595bf502702"],
+
+Cell[CellGroupData[{
+
+Cell["Available moves", "Subsection",
+ CellChangeTimes->{{3.8175391886709967`*^9, 3.8175392095546427`*^9}, {
+  3.81753932275937*^9, 
+  3.817539329460473*^9}},ExpressionUUID->"af6f9231-863d-4d38-90c0-\
+2e8c18070a47"],
+
+Cell[BoxData[{
+ RowBox[{"ClearAll", "[", "AvailableMoves", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"AvailableMoves", "[", "ttt_", "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"ttt", "[", "\"\<won\>\"", "]"}], "===", "False"}], ",", "#", 
+      ",", "False"}], "]"}], "&"}], "[", 
+   RowBox[{"Position", "[", 
+    RowBox[{
+     RowBox[{"ttt", "[", "\"\<board\>\"", "]"}], ",", "0"}], "]"}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.817539213343904*^9, 3.8175392661151114`*^9}, {
+   3.817539306313651*^9, 3.8175393554649973`*^9}, 3.817539409551073*^9, {
+   3.817539440808996*^9, 3.817539546589881*^9}, {3.817539633580825*^9, 
+   3.817539644290286*^9}, {3.817539684340584*^9, 3.817539697814666*^9}, {
+   3.817539915695475*^9, 3.817539940483349*^9}, {3.817645317576365*^9, 
+   3.8176453590985622`*^9}, {3.817645928421754*^9, 3.817645929117872*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[11]:=",ExpressionUUID->"4f051b35-6e29-441d-a671-f31870ef9201"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Score function", "Subsection",
+ CellChangeTimes->{{3.8175391886709967`*^9, 
+  3.8175392095546427`*^9}},ExpressionUUID->"811be843-9405-4339-8d78-\
+bf0b30c952a0"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ScoreTTT", "[", "ttt_", "]"}], ":=", 
+  RowBox[{"Switch", "[", 
+   RowBox[{
+    RowBox[{"ttt", "[", "\"\<won\>\"", "]"}], ",", "1", ",", "100", ",", "2", 
+    ",", 
+    RowBox[{"-", "100"}], ",", "_", ",", "0"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.817539213343904*^9, 3.8175392661151114`*^9}, 
+   3.817539306313651*^9, {3.817644086189206*^9, 3.817644108706209*^9}, {
+   3.817644246936975*^9, 3.8176442746690197`*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[13]:=",ExpressionUUID->"4c81d6ac-92d7-49c5-a1d8-6173c2bdbb54"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Minimax - slow", "Subchapter",
+ CellChangeTimes->{{3.8175391886709967`*^9, 3.8175392095546427`*^9}, {
+  3.81753932275937*^9, 3.817539329460473*^9}, {3.817539887875223*^9, 
+  3.817539889603997*^9}, {3.8175468151373253`*^9, 
+  3.8175468183070393`*^9}},ExpressionUUID->"20ae935f-f8ae-4600-8b8f-\
+e6eec79f9997"],
+
+Cell[CellGroupData[{
+
+Cell["Minimax \"full\" algorithm", "Subsection",
+ CellChangeTimes->{{3.817642776047799*^9, 
+  3.817642789421248*^9}},ExpressionUUID->"97147127-dcc0-4f31-ad8a-\
+33f4e73861e8"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "MiniMaxTTT", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"SetAttributes", "[", 
+  RowBox[{"MiniMaxTTT", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MiniMaxTTT", "[", 
+   RowBox[{"ttt_Symbol", ",", "depth_", ",", "maxQ_", ",", 
+    RowBox[{"maxDepth_:", "9"}]}], "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "nextBoard", ",", "bestMove", ",", "move", ",", "\[IndentingNewLine]", 
+      RowBox[{"availableMoves", "=", 
+       RowBox[{"AvailableMoves", "[", "ttt", "]"}]}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"i", "=", "1"}], ",", "bestValue", ",", "value"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"TicTacToe", "[", 
+      RowBox[{"\"\<winCheck\>\"", ",", "ttt"}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"ttt", "[", "\"\<won\>\"", "]"}], "===", "False"}], " ", "||", 
+        RowBox[{"availableMoves", "=!=", "False"}]}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{"maxQ", ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"bestValue", "=", 
+           RowBox[{"Prepend", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"-", "1000"}], "}"}], ",", 
+             RowBox[{
+             "availableMoves", "\[LeftDoubleBracket]", "i", 
+              "\[RightDoubleBracket]"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"For", "[", 
+           RowBox[{
+            RowBox[{"i", "=", "1"}], ",", 
+            RowBox[{"i", "\[LessEqual]", 
+             RowBox[{"Length", "[", "availableMoves", "]"}]}], ",", 
+            RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"nextBoard", "=", "ttt"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"TicTacToe", "[", 
+              RowBox[{"\"\<move\>\"", ",", "nextBoard", ",", 
+               RowBox[{"Evaluate", "[", 
+                RowBox[{
+                "availableMoves", "\[LeftDoubleBracket]", "i", 
+                 "\[RightDoubleBracket]"}], "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"value", "=", 
+              RowBox[{"Prepend", "[", 
+               RowBox[{
+                RowBox[{"MiniMaxTTT", "[", 
+                 RowBox[{"nextBoard", ",", 
+                  RowBox[{"depth", "+", "1"}], ",", "False"}], "]"}], ",", 
+                RowBox[{
+                "availableMoves", "\[LeftDoubleBracket]", "i", 
+                 "\[RightDoubleBracket]"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"bestValue", "=", 
+              RowBox[{"First", "@", 
+               RowBox[{"MaximalBy", "[", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"bestValue", ",", "value"}], "}"}], ",", "Last"}], 
+                "]"}]}]}]}]}], "\[IndentingNewLine]", "]"}], ";", 
+          "\[IndentingNewLine]", "bestValue"}], "\[IndentingNewLine]", ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"bestValue", "=", 
+           RowBox[{"Prepend", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"+", "1000"}], "}"}], ",", 
+             RowBox[{
+             "availableMoves", "\[LeftDoubleBracket]", "i", 
+              "\[RightDoubleBracket]"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"For", "[", 
+           RowBox[{
+            RowBox[{"i", "=", "1"}], ",", 
+            RowBox[{"i", "\[LessEqual]", 
+             RowBox[{"Length", "[", "availableMoves", "]"}]}], ",", 
+            RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"nextBoard", "=", "ttt"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"TicTacToe", "[", 
+              RowBox[{"\"\<move\>\"", ",", "nextBoard", ",", 
+               RowBox[{"Evaluate", "[", 
+                RowBox[{
+                "availableMoves", "\[LeftDoubleBracket]", "i", 
+                 "\[RightDoubleBracket]"}], "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"value", "=", 
+              RowBox[{"Prepend", "[", 
+               RowBox[{
+                RowBox[{"MiniMaxTTT", "[", 
+                 RowBox[{"nextBoard", ",", 
+                  RowBox[{"depth", "+", "1"}], ",", "True"}], "]"}], ",", 
+                RowBox[{
+                "availableMoves", "\[LeftDoubleBracket]", "i", 
+                 "\[RightDoubleBracket]"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"bestValue", "=", 
+              RowBox[{"First", "@", 
+               RowBox[{"MinimalBy", "[", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"bestValue", ",", "value"}], "}"}], ",", "Last"}], 
+                "]"}]}]}]}]}], "\[IndentingNewLine]", "]"}], ";", 
+          "\[IndentingNewLine]", "bestValue"}]}], "\[IndentingNewLine]", 
+        "]"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"ScoreTTT", "[", "ttt", "]"}], "}"}]}], "\[IndentingNewLine]",
+       "]"}]}]}], "\[IndentingNewLine]", "]"}]}]}], "Input",
+ CellChangeTimes->{{3.817539213343904*^9, 3.8175392661151114`*^9}, 
+   3.817539306313651*^9, {3.817540940633643*^9, 3.8175409438794527`*^9}, {
+   3.81754098378598*^9, 3.817541062216961*^9}, {3.817541109345317*^9, 
+   3.817541168773731*^9}, {3.817541201247425*^9, 3.8175412090030727`*^9}, {
+   3.817541255899412*^9, 3.817541418122957*^9}, {3.81754146287843*^9, 
+   3.81754156328516*^9}, {3.817541789962566*^9, 3.817541897147147*^9}, {
+   3.817541950063459*^9, 3.817541959824848*^9}, {3.817542011451881*^9, 
+   3.81754201520951*^9}, {3.8175420716629953`*^9, 3.817542139446237*^9}, {
+   3.817542193196363*^9, 3.81754223560242*^9}, {3.817542507586985*^9, 
+   3.817542526351851*^9}, {3.817542618091178*^9, 3.817542621287702*^9}, {
+   3.817542770682733*^9, 3.817542836502852*^9}, {3.817542874401122*^9, 
+   3.8175429439866323`*^9}, {3.8175430551963654`*^9, 
+   3.8175430598949223`*^9}, {3.817543090702346*^9, 3.81754310073512*^9}, {
+   3.817543136147786*^9, 3.8175432541961527`*^9}, {3.8175433238768797`*^9, 
+   3.817543360795597*^9}, {3.817543462429544*^9, 3.817543462627976*^9}, {
+   3.8175447903981*^9, 3.817544803392318*^9}, {3.817545644320157*^9, 
+   3.817545646975212*^9}, {3.8175458034145517`*^9, 3.8175458153511066`*^9}, {
+   3.817546054172345*^9, 3.8175460598248177`*^9}, {3.817546115758062*^9, 
+   3.817546117773155*^9}, {3.817565342585334*^9, 3.817565346540381*^9}, {
+   3.817644839808425*^9, 3.817644840123261*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[14]:=",ExpressionUUID->"a596a7f5-fa32-4138-b977-f39c6477cdb8"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Game (may be slow)", "Subsection",
+ CellChangeTimes->{{3.817463209545269*^9, 3.817463222478924*^9}, 
+   3.817482964053069*^9, {3.817546567235203*^9, 
+   3.817546570202014*^9}},ExpressionUUID->"80666fa9-2648-463d-b7f6-\
+ce8fe332b287"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TicTacToe", "[", "\"\<playVsComp\>\"", "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"DynamicModule", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"ttt", "=", 
+      RowBox[{"TicTacToe", "[", "\"\<start\>\"", "]"}]}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Labeled", "[", 
+     RowBox[{
+      RowBox[{"TicTacToe", "[", 
+       RowBox[{"\"\<interaction\>\"", ",", "ttt"}], "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Column", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Button", "[", 
+          RowBox[{"\"\<Restart\>\"", ",", 
+           RowBox[{"ttt", "=", 
+            RowBox[{"TicTacToe", "[", "\"\<start\>\"", "]"}]}]}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Button", "[", 
+          RowBox[{"\"\<Save\>\"", ",", 
+           RowBox[{"ttt1", "=", "ttt"}]}], "]"}], ",", "\[IndentingNewLine]", 
+         
+         RowBox[{"Button", "[", 
+          RowBox[{"\"\<MiniMax - steps (may be slow)\>\"", ",", 
+           RowBox[{"Print", "[", 
+            RowBox[{"MiniMaxTTT", "[", 
+             RowBox[{"ttt", ",", "1", ",", 
+              RowBox[{
+               RowBox[{"Mod", "[", 
+                RowBox[{
+                 RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], "]"}],
+                "\[Equal]", "0"}]}], "]"}], "]"}]}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Button", "[", 
+          RowBox[{"\"\<MiniMax - move\>\"", ",", "\[IndentingNewLine]", 
+           RowBox[{"TicTacToe", "[", 
+            RowBox[{"\"\<move\>\"", ",", "ttt", ",", 
+             RowBox[{"Evaluate", "[", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], "\[Equal]", "0"}],
+                 ",", 
+                RowBox[{"RandomInteger", "[", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{"1", ",", "3"}], "}"}], ",", "2"}], "]"}], ",", 
+                RowBox[{"First", "[", 
+                 RowBox[{"MiniMaxTTT", "[", 
+                  RowBox[{"ttt", ",", "1", ",", 
+                   RowBox[{
+                    RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], 
+                    "]"}], "\[Equal]", "0"}]}], "]"}], "]"}]}], "]"}], 
+              "]"}]}], "]"}]}], "]"}]}], "\[IndentingNewLine]", "}"}], "]"}], 
+      ",", "\[IndentingNewLine]", "Bottom"}], "\[IndentingNewLine]", "]"}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.817463281611579*^9, 3.817463348975194*^9}, {
+   3.817463383659452*^9, 3.817463386741486*^9}, {3.8174635162359667`*^9, 
+   3.8174636113934107`*^9}, {3.817463697358056*^9, 3.817463703337103*^9}, {
+   3.8174638611645613`*^9, 3.817463998114504*^9}, {3.817464059088797*^9, 
+   3.817464083455476*^9}, {3.817464115577796*^9, 3.817464129431506*^9}, {
+   3.817464777183216*^9, 3.817464801829544*^9}, 3.817464849870632*^9, {
+   3.817465085026537*^9, 3.817465114019084*^9}, 3.817465153920467*^9, {
+   3.8174662181763983`*^9, 3.817466275037512*^9}, {3.817467312948801*^9, 
+   3.817467313983382*^9}, {3.817478886913508*^9, 3.817478908101369*^9}, {
+   3.81747894687777*^9, 3.817479041478735*^9}, {3.8174790739093637`*^9, 
+   3.817479240647584*^9}, {3.817479271785612*^9, 3.817479300426736*^9}, 
+   3.8174793455813704`*^9, {3.817479395973516*^9, 3.817479396741897*^9}, {
+   3.817479474226112*^9, 3.8174795135470533`*^9}, {3.817479546935424*^9, 
+   3.81747959889567*^9}, 3.8174807174592867`*^9, {3.8174812776997213`*^9, 
+   3.817481280658893*^9}, {3.81748135182663*^9, 3.81748144506569*^9}, {
+   3.817481484272073*^9, 3.8174814979460917`*^9}, {3.81748156621402*^9, 
+   3.817481634717101*^9}, {3.8174816820505342`*^9, 3.817481686648734*^9}, {
+   3.817481738002775*^9, 3.8174817577298813`*^9}, {3.817481809480851*^9, 
+   3.8174818389170427`*^9}, {3.817482006439329*^9, 3.817482022870064*^9}, {
+   3.8174821320114937`*^9, 3.817482146419614*^9}, {3.817482331543583*^9, 
+   3.8174823520234737`*^9}, {3.8174824272153597`*^9, 3.817482449290661*^9}, {
+   3.817482970492597*^9, 3.8174829745215*^9}, {3.8174830231443768`*^9, 
+   3.817483065066918*^9}, {3.817483248361306*^9, 3.817483279729589*^9}, {
+   3.817483972557137*^9, 3.817483985588641*^9}, {3.8174840519216948`*^9, 
+   3.8174841095571136`*^9}, {3.8174841720606422`*^9, 3.817484176123947*^9}, {
+   3.8174842100538816`*^9, 3.8174842388990307`*^9}, {3.8174844275165997`*^9, 
+   3.817484430452395*^9}, {3.8174846168335037`*^9, 3.817484625984828*^9}, {
+   3.817484724495892*^9, 3.817484784611779*^9}, {3.81748488532159*^9, 
+   3.8174848890382967`*^9}, {3.817484940363678*^9, 3.8174849637351017`*^9}, {
+   3.817485083925465*^9, 3.817485098886294*^9}, {3.817485255602976*^9, 
+   3.8174853450285788`*^9}, {3.817485384718361*^9, 3.8174854487017517`*^9}, {
+   3.817539560412266*^9, 3.817539607328065*^9}, {3.817539654408536*^9, 
+   3.81753965482867*^9}, {3.817539768974656*^9, 3.817539852254862*^9}, {
+   3.81753992029795*^9, 3.8175399291269827`*^9}, {3.817542338885539*^9, 
+   3.8175423428132687`*^9}, {3.8175423853129263`*^9, 3.817542424195537*^9}, {
+   3.8175453746227818`*^9, 3.817545384450008*^9}, {3.8175454224719954`*^9, 
+   3.817545549365817*^9}, {3.817545581688251*^9, 3.8175456088697557`*^9}, {
+   3.817546182017557*^9, 3.817546182399222*^9}, {3.817546444103511*^9, 
+   3.8175465083022537`*^9}, {3.81754684902038*^9, 3.817546952866604*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[17]:=",ExpressionUUID->"89eabebd-1129-4929-a9a1-c531d6aaf172"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["", "Subsection",
+ CellChangeTimes->{{3.817463209545269*^9, 3.817463222478924*^9}, 
+   3.817482964053069*^9, {3.817546567235203*^9, 3.817546570202014*^9}, {
+   3.8175474219189796`*^9, 3.817547425951079*^9}, 
+   3.817645962018353*^9},ExpressionUUID->"069c9bf8-8085-420e-926e-\
+c8437f55614a"],
+
+Cell["\<\
+1 \:0438 2 \:0445\:043e\:0434\:044b minimax \:043d\:0435 \:0434\:0430\:0451\
+\:0442 \:043e\:0442\:0432\:0435\:0442 (\:043d\:0430\:0447\:0438\:043d\:0430\
+\:044f \:0441 3\:0435\:0433\:043e \:0445\:043e\:0434\:0430, \
+\:0440\:0430\:0431\:043e\:0442\:0430\:0435\:0442)\
+\>", "Text",
+ CellChangeTimes->{{3.817650045462039*^9, 
+  3.817650103596836*^9}},ExpressionUUID->"0100f6ea-0026-4336-9704-\
+207b6bcc0380"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"TicTacToe", "[", "\"\<playVsComp\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.817484734421307*^9, 3.817484735270499*^9}, 
+   3.817545489134838*^9},
+ CellLabel->"In[18]:=",ExpressionUUID->"16ff01eb-80bc-4c5d-b71a-19e1861c7697"],
+
+Cell[BoxData[
+ DynamicModuleBox[{$CellContext`ttt$$ = Association[
+  "turn" -> 6, "won" -> False, "board" -> {{1, 0, 2}, {2, 2, 1}, {0, 1, 0}}]}, 
+  TemplateBox[{TagBox[
+     DynamicBox[
+      ToBoxes[
+       $CellContext`TicTacToe["visualisation", $CellContext`ttt$$], 
+       StandardForm]], 
+     EventHandlerTag[{
+      "MouseClicked" :> ($CellContext`TicTacToe["move", $CellContext`ttt$$, 
+         Evaluate[
+          Round[# + 0.5]]]& )[
+         MousePosition["EventHandlerAutomatic"]], Method -> "Preemptive", 
+       PassEventsDown -> Automatic, PassEventsUp -> True}]],TagBox[
+     GridBox[{{
+        ButtonBox[
+        "\"Restart\"", 
+         ButtonFunction :> ($CellContext`ttt$$ = $CellContext`TicTacToe[
+           "start"]), Appearance -> Automatic, Evaluator -> Automatic, Method -> 
+         "Preemptive"]}, {
+        ButtonBox[
+        "\"Save\"", 
+         ButtonFunction :> ($CellContext`ttt1 = $CellContext`ttt$$), 
+         Appearance -> Automatic, Evaluator -> Automatic, Method -> 
+         "Preemptive"]}, {
+        ButtonBox["\"MiniMax - steps (may be slow)\"", ButtonFunction :> Print[
+           $CellContext`MiniMaxTTT[$CellContext`ttt$$, 1, Mod[
+              $CellContext`ttt$$["turn"], 2] == 0]], Appearance -> Automatic, 
+         Evaluator -> Automatic, Method -> "Preemptive"]}, {
+        ButtonBox[
+        "\"MiniMax - move\"", 
+         ButtonFunction :> $CellContext`TicTacToe[
+          "move", $CellContext`ttt$$, 
+           Evaluate[
+            If[$CellContext`ttt$$["turn"] == 0, 
+             RandomInteger[{1, 3}, 2], 
+             First[
+              $CellContext`MiniMaxTTT[$CellContext`ttt$$, 1, Mod[
+                 $CellContext`ttt$$["turn"], 2] == 0]]]]], Appearance -> 
+         Automatic, Evaluator -> Automatic, Method -> "Preemptive"]}}, 
+      GridBoxAlignment -> {"Columns" -> {{Left}}}, DefaultBaseStyle -> 
+      "Column", 
+      GridBoxItemSize -> {
+       "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Column"]},
+   "Labeled",
+   DisplayFunction->(GridBox[{{
+       TagBox[
+        ItemBox[
+         PaneBox[
+          TagBox[#, "SkipImageSizeLevel"], Alignment -> {Center, Baseline}, 
+          BaselinePosition -> Baseline], DefaultBaseStyle -> "Labeled"], 
+        "SkipImageSizeLevel"]}, {
+       ItemBox[#2, DefaultBaseStyle -> "LabeledLabel"]}}, 
+     GridBoxAlignment -> {"Columns" -> {{Center}}, "Rows" -> {{Center}}}, 
+     AutoDelete -> False, 
+     GridBoxItemSize -> {"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+      BaselinePosition -> {1, 1}]& ),
+   InterpretationFunction->(RowBox[{"Labeled", "[", 
+      RowBox[{#, ",", #2, ",", "Bottom"}], "]"}]& )],
+  DynamicModuleValues:>{}]], "Output",
+ CellChangeTimes->{
+  3.817545633031444*^9, 3.817546104788021*^9, 3.817546189159169*^9, 
+   3.817546516560314*^9, 3.8175469632686977`*^9, 3.817564094746583*^9, 
+   3.81756530444283*^9, 3.817565523950038*^9, 3.81764286350215*^9, 
+   3.817644471707119*^9, 3.817644892945568*^9, 3.8176449435441847`*^9, {
+   3.817646075888633*^9, 3.817646080425358*^9}, 3.817647452144772*^9, 
+   3.817649830154285*^9, 3.8176508910959797`*^9, 3.817655343382936*^9},
+ CellLabel->"Out[18]=",ExpressionUUID->"0e82a1b8-3303-400b-82dc-1fc2f2597413"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"1", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"3", ",", "3"}], "}"}], ",", "100"}], "}"}]], "Print",
+ CellChangeTimes->{3.817655386292981*^9},
+ CellLabel->"",ExpressionUUID->"8d660cb2-865c-48e2-ae44-8caa27da257b"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Minimax - faster (alpha-beta pruning)", "Subchapter",
+ CellChangeTimes->{{3.8175391886709967`*^9, 3.8175392095546427`*^9}, {
+   3.81753932275937*^9, 3.817539329460473*^9}, {3.817539887875223*^9, 
+   3.817539889603997*^9}, {3.8175468151373253`*^9, 3.8175468183070393`*^9}, {
+   3.817547020407357*^9, 3.81754702602878*^9}, 
+   3.817648871408002*^9},ExpressionUUID->"7c2d85cf-7850-4138-88f1-\
+91c43102498e"],
+
+Cell[CellGroupData[{
+
+Cell["Minimax \"\[Alpha]-\[Beta]\" algorithm", "Subsection",
+ CellChangeTimes->{{3.817642776047799*^9, 
+  3.817642809211899*^9}},ExpressionUUID->"39b71861-ac30-48b6-b84b-\
+97bc829e9e85"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "MiniMax\[Alpha]\[Beta]TTT", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"SetAttributes", "[", 
+  RowBox[{"MiniMax\[Alpha]\[Beta]TTT", ",", "HoldFirst"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MiniMax\[Alpha]\[Beta]TTT", "[", 
+   RowBox[{"ttt_Symbol", ",", "depth_", ",", "maxQ_", ",", 
+    RowBox[{"\[Alpha]_:", "-", "1000"}], ",", 
+    RowBox[{"\[Beta]_:", "1000"}], ",", 
+    RowBox[{"maxDepth_:", "9"}]}], "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "nextBoard", ",", "bestMove", ",", "move", ",", "\[IndentingNewLine]", 
+      RowBox[{"availableMoves", "=", 
+       RowBox[{"AvailableMoves", "[", "ttt", "]"}]}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"i", "=", "1"}], ",", "bestValue", ",", "value", ",", 
+      RowBox[{"\[Alpha]1", "=", "\[Alpha]"}], ",", 
+      RowBox[{"\[Beta]1", "=", "\[Beta]"}]}], "\[IndentingNewLine]", "}"}], 
+    ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"TicTacToe", "[", 
+      RowBox[{"\"\<winCheck\>\"", ",", "ttt"}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"ttt", "[", "\"\<won\>\"", "]"}], "===", "False"}], " ", "||", 
+        RowBox[{"availableMoves", "=!=", "False"}]}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{"maxQ", ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"bestValue", "=", 
+           RowBox[{"-", "1000"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"For", "[", 
+           RowBox[{
+            RowBox[{"i", "=", "1"}], ",", 
+            RowBox[{"i", "\[LessEqual]", 
+             RowBox[{"Length", "[", "availableMoves", "]"}]}], ",", 
+            RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"nextBoard", "=", "ttt"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"move", "=", 
+              RowBox[{
+              "availableMoves", "\[LeftDoubleBracket]", "i", 
+               "\[RightDoubleBracket]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"TicTacToe", "[", 
+              RowBox[{"\"\<move\>\"", ",", "nextBoard", ",", 
+               RowBox[{"Evaluate", "[", "move", "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"value", "=", 
+              RowBox[{"MiniMax\[Alpha]\[Beta]TTT", "[", 
+               RowBox[{"nextBoard", ",", 
+                RowBox[{"depth", "+", "1"}], ",", "False", ",", "\[Alpha]1", 
+                ",", "\[Beta]1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"value", ">", "bestValue"}], ",", 
+               RowBox[{
+                RowBox[{"bestValue", "=", "value"}], ";", 
+                RowBox[{"bestMove", "=", "move"}]}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\[Alpha]1", "=", 
+              RowBox[{"Max", "[", 
+               RowBox[{"\[Alpha]1", ",", "bestValue"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"\[Beta]1", "\[LessEqual]", "\[Alpha]1"}], ",", 
+               RowBox[{"Break", "[", "]"}]}], "]"}]}]}], 
+           "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"depth", "\[Equal]", "1"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"bestMove", ",", "bestValue"}], "}"}], ",", 
+            "bestValue"}], "]"}]}], "\[IndentingNewLine]", ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"bestValue", "=", "1000"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"For", "[", 
+           RowBox[{
+            RowBox[{"i", "=", "1"}], ",", 
+            RowBox[{"i", "\[LessEqual]", 
+             RowBox[{"Length", "[", "availableMoves", "]"}]}], ",", 
+            RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"nextBoard", "=", "ttt"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"move", "=", 
+              RowBox[{
+              "availableMoves", "\[LeftDoubleBracket]", "i", 
+               "\[RightDoubleBracket]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"TicTacToe", "[", 
+              RowBox[{"\"\<move\>\"", ",", "nextBoard", ",", 
+               RowBox[{"Evaluate", "[", "move", "]"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"value", "=", 
+              RowBox[{"MiniMax\[Alpha]\[Beta]TTT", "[", 
+               RowBox[{"nextBoard", ",", 
+                RowBox[{"depth", "+", "1"}], ",", "True", ",", "\[Alpha]1", 
+                ",", "\[Beta]1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"value", "<", "bestValue"}], ",", 
+               RowBox[{
+                RowBox[{"bestValue", "=", "value"}], ";", 
+                RowBox[{"bestMove", "=", "move"}]}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\[Beta]1", "=", 
+              RowBox[{"Min", "[", 
+               RowBox[{"\[Beta]1", ",", "bestValue"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"\[Beta]1", "\[LessEqual]", "\[Alpha]1"}], ",", 
+               RowBox[{"Break", "[", "]"}]}], "]"}]}]}], 
+           "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"depth", "\[Equal]", "1"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"bestMove", ",", "bestValue"}], "}"}], ",", 
+            "bestValue"}], "]"}]}]}], "\[IndentingNewLine]", "]"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"ttt", "[", "\"\<won\>\"", "]"}], "==", "0"}], ",", 
+         RowBox[{"ScoreTTT", "[", "ttt", "]"}], ",", 
+         RowBox[{
+          RowBox[{"ScoreTTT", "[", "ttt", "]"}], "+", 
+          RowBox[{"If", "[", 
+           RowBox[{"maxQ", ",", "depth", ",", 
+            RowBox[{"-", "depth"}]}], "]"}]}]}], "]"}]}], 
+      "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.817539213343904*^9, 3.8175392661151114`*^9}, 
+   3.817539306313651*^9, {3.817540940633643*^9, 3.8175409438794527`*^9}, {
+   3.81754098378598*^9, 3.817541062216961*^9}, {3.817541109345317*^9, 
+   3.817541168773731*^9}, {3.817541201247425*^9, 3.8175412090030727`*^9}, {
+   3.817541255899412*^9, 3.817541418122957*^9}, {3.81754146287843*^9, 
+   3.81754156328516*^9}, {3.817541789962566*^9, 3.817541897147147*^9}, {
+   3.817541950063459*^9, 3.817541959824848*^9}, {3.817542011451881*^9, 
+   3.81754201520951*^9}, {3.8175420716629953`*^9, 3.817542139446237*^9}, {
+   3.817542193196363*^9, 3.81754223560242*^9}, {3.817542507586985*^9, 
+   3.817542526351851*^9}, {3.817542618091178*^9, 3.817542621287702*^9}, {
+   3.817542770682733*^9, 3.817542836502852*^9}, {3.817542874401122*^9, 
+   3.8175429439866323`*^9}, {3.8175430551963654`*^9, 
+   3.8175430598949223`*^9}, {3.817543090702346*^9, 3.81754310073512*^9}, {
+   3.817543136147786*^9, 3.8175432541961527`*^9}, {3.8175433238768797`*^9, 
+   3.817543360795597*^9}, {3.817543462429544*^9, 3.817543462627976*^9}, {
+   3.8175447903981*^9, 3.817544803392318*^9}, {3.817545644320157*^9, 
+   3.817545646975212*^9}, {3.8175458034145517`*^9, 3.8175458153511066`*^9}, {
+   3.817546054172345*^9, 3.8175460598248177`*^9}, {3.817546115758062*^9, 
+   3.817546117773155*^9}, {3.817547042692178*^9, 3.817547047522376*^9}, {
+   3.817547137942648*^9, 3.8175471480657988`*^9}, {3.8175471841118097`*^9, 
+   3.817547190534477*^9}, {3.817547233842184*^9, 3.817547398472261*^9}, 
+   3.817547711709408*^9, {3.81754777287376*^9, 3.8175477752654657`*^9}, {
+   3.8175478841049147`*^9, 3.8175479187781353`*^9}, {3.817548011787367*^9, 
+   3.817548133245903*^9}, {3.817548185431389*^9, 3.817548300593762*^9}, {
+   3.817548396663377*^9, 3.817548419397236*^9}, {3.8175486840132*^9, 
+   3.817548685587385*^9}, {3.81754922152809*^9, 3.817549223656425*^9}, {
+   3.8175493021925983`*^9, 3.817549305156168*^9}, {3.8175494807913637`*^9, 
+   3.817549484856069*^9}, {3.817549557183496*^9, 3.81754955890829*^9}, {
+   3.817549874786352*^9, 3.817549876979293*^9}, 3.81755613139156*^9, {
+   3.817558708340645*^9, 3.8175587152755404`*^9}, {3.8175588726691713`*^9, 
+   3.817558943092473*^9}, {3.817558995090611*^9, 3.817559001118887*^9}, {
+   3.817559189223488*^9, 3.817559196523096*^9}, {3.817559286710866*^9, 
+   3.817559289090653*^9}, {3.817559392179974*^9, 3.817559487235346*^9}, {
+   3.817559853979067*^9, 3.817559876948468*^9}, {3.817560096312904*^9, 
+   3.817560098463417*^9}, {3.8175604516767893`*^9, 3.81756045634081*^9}, {
+   3.8175605820319967`*^9, 3.817560671950218*^9}, {3.817560770574973*^9, 
+   3.817560771431081*^9}, {3.817560810496017*^9, 3.8175608359290323`*^9}, {
+   3.817561081337254*^9, 3.817561097687496*^9}, {3.817561268350873*^9, 
+   3.817561316150272*^9}, {3.817644570825914*^9, 3.81764458251855*^9}, 
+   3.817644643944767*^9},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[19]:=",ExpressionUUID->"82626c8b-fbf7-459f-9a6f-07eed2cf3fc9"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Game \[Alpha]\[Beta] ", "Subsection",
+ CellChangeTimes->{{3.817463209545269*^9, 3.817463222478924*^9}, 
+   3.817482964053069*^9, {3.817546567235203*^9, 3.817546570202014*^9}, {
+   3.8175474219189796`*^9, 
+   3.817547425951079*^9}},ExpressionUUID->"5992e701-c048-4fa0-b77b-\
+112ac199faf4"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TicTacToe", "[", "\"\<playVsComp\[Alpha]\[Beta]\>\"", "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"DynamicModule", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"ttt", "=", 
+      RowBox[{"TicTacToe", "[", "\"\<start\>\"", "]"}]}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Labeled", "[", 
+     RowBox[{
+      RowBox[{"TicTacToe", "[", 
+       RowBox[{"\"\<interaction\>\"", ",", "ttt"}], "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Column", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Button", "[", 
+          RowBox[{"\"\<Restart\>\"", ",", 
+           RowBox[{"ttt", "=", 
+            RowBox[{"TicTacToe", "[", "\"\<start\>\"", "]"}]}]}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Button", "[", 
+          RowBox[{"\"\<Save\>\"", ",", 
+           RowBox[{"ttt1", "=", "ttt"}]}], "]"}], ",", "\[IndentingNewLine]", 
+         
+         RowBox[{"Button", "[", 
+          RowBox[{"\"\<MiniMax - steps\>\"", ",", 
+           RowBox[{"Print", "[", 
+            RowBox[{"MiniMax\[Alpha]\[Beta]TTT", "[", 
+             RowBox[{"ttt", ",", "1", ",", 
+              RowBox[{
+               RowBox[{"Mod", "[", 
+                RowBox[{
+                 RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], "]"}],
+                "\[Equal]", "0"}]}], "]"}], "]"}]}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Button", "[", 
+          RowBox[{"\"\<MiniMax - move\>\"", ",", "\[IndentingNewLine]", 
+           RowBox[{"TicTacToe", "[", 
+            RowBox[{"\"\<move\>\"", ",", "ttt", ",", 
+             RowBox[{"Evaluate", "[", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], "\[Equal]", "0"}],
+                 ",", 
+                RowBox[{"RandomInteger", "[", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{"1", ",", "3"}], "}"}], ",", "2"}], "]"}], ",", 
+                RowBox[{"First", "[", 
+                 RowBox[{"MiniMax\[Alpha]\[Beta]TTT", "[", 
+                  RowBox[{"ttt", ",", "1", ",", 
+                   RowBox[{
+                    RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], 
+                    "]"}], "\[Equal]", "0"}]}], "]"}], "]"}]}], "]"}], 
+              "]"}]}], "]"}]}], "]"}]}], "\[IndentingNewLine]", "}"}], "]"}], 
+      ",", "\[IndentingNewLine]", "Bottom"}], "\[IndentingNewLine]", "]"}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.817463281611579*^9, 3.817463348975194*^9}, {
+   3.817463383659452*^9, 3.817463386741486*^9}, {3.8174635162359667`*^9, 
+   3.8174636113934107`*^9}, {3.817463697358056*^9, 3.817463703337103*^9}, {
+   3.8174638611645613`*^9, 3.817463998114504*^9}, {3.817464059088797*^9, 
+   3.817464083455476*^9}, {3.817464115577796*^9, 3.817464129431506*^9}, {
+   3.817464777183216*^9, 3.817464801829544*^9}, 3.817464849870632*^9, {
+   3.817465085026537*^9, 3.817465114019084*^9}, 3.817465153920467*^9, {
+   3.8174662181763983`*^9, 3.817466275037512*^9}, {3.817467312948801*^9, 
+   3.817467313983382*^9}, {3.817478886913508*^9, 3.817478908101369*^9}, {
+   3.81747894687777*^9, 3.817479041478735*^9}, {3.8174790739093637`*^9, 
+   3.817479240647584*^9}, {3.817479271785612*^9, 3.817479300426736*^9}, 
+   3.8174793455813704`*^9, {3.817479395973516*^9, 3.817479396741897*^9}, {
+   3.817479474226112*^9, 3.8174795135470533`*^9}, {3.817479546935424*^9, 
+   3.81747959889567*^9}, 3.8174807174592867`*^9, {3.8174812776997213`*^9, 
+   3.817481280658893*^9}, {3.81748135182663*^9, 3.81748144506569*^9}, {
+   3.817481484272073*^9, 3.8174814979460917`*^9}, {3.81748156621402*^9, 
+   3.817481634717101*^9}, {3.8174816820505342`*^9, 3.817481686648734*^9}, {
+   3.817481738002775*^9, 3.8174817577298813`*^9}, {3.817481809480851*^9, 
+   3.8174818389170427`*^9}, {3.817482006439329*^9, 3.817482022870064*^9}, {
+   3.8174821320114937`*^9, 3.817482146419614*^9}, {3.817482331543583*^9, 
+   3.8174823520234737`*^9}, {3.8174824272153597`*^9, 3.817482449290661*^9}, {
+   3.817482970492597*^9, 3.8174829745215*^9}, {3.8174830231443768`*^9, 
+   3.817483065066918*^9}, {3.817483248361306*^9, 3.817483279729589*^9}, {
+   3.817483972557137*^9, 3.817483985588641*^9}, {3.8174840519216948`*^9, 
+   3.8174841095571136`*^9}, {3.8174841720606422`*^9, 3.817484176123947*^9}, {
+   3.8174842100538816`*^9, 3.8174842388990307`*^9}, {3.8174844275165997`*^9, 
+   3.817484430452395*^9}, {3.8174846168335037`*^9, 3.817484625984828*^9}, {
+   3.817484724495892*^9, 3.817484784611779*^9}, {3.81748488532159*^9, 
+   3.8174848890382967`*^9}, {3.817484940363678*^9, 3.8174849637351017`*^9}, {
+   3.817485083925465*^9, 3.817485098886294*^9}, {3.817485255602976*^9, 
+   3.8174853450285788`*^9}, {3.817485384718361*^9, 3.8174854487017517`*^9}, {
+   3.817539560412266*^9, 3.817539607328065*^9}, {3.817539654408536*^9, 
+   3.81753965482867*^9}, {3.817539768974656*^9, 3.817539852254862*^9}, {
+   3.81753992029795*^9, 3.8175399291269827`*^9}, {3.817542338885539*^9, 
+   3.8175423428132687`*^9}, {3.8175423853129263`*^9, 3.817542424195537*^9}, {
+   3.8175453746227818`*^9, 3.817545384450008*^9}, {3.8175454224719954`*^9, 
+   3.817545549365817*^9}, {3.817545581688251*^9, 3.8175456088697557`*^9}, {
+   3.817546182017557*^9, 3.817546182399222*^9}, {3.817546444103511*^9, 
+   3.8175465083022537`*^9}, {3.81754684902038*^9, 3.817546952866604*^9}, {
+   3.817547429624588*^9, 3.817547446938773*^9}, {3.817547569242717*^9, 
+   3.817547569531064*^9}, {3.817548487554043*^9, 3.817548488010708*^9}, {
+   3.817549401019383*^9, 3.817549401696347*^9}, {3.81754951410675*^9, 
+   3.8175495175369663`*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[22]:=",ExpressionUUID->"b01dd50a-fb0c-4b6f-b2ed-5f115e2d51cf"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["", "Subsection",
+ CellChangeTimes->{{3.817463209545269*^9, 3.817463222478924*^9}, 
+   3.817482964053069*^9, {3.817546567235203*^9, 3.817546570202014*^9}, {
+   3.8175474219189796`*^9, 3.817547425951079*^9}, 
+   3.817645962018353*^9},ExpressionUUID->"2929db17-34a9-4ab7-a2d8-\
+f880a3023a3d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"TicTacToe", "[", "\"\<playVsComp\[Alpha]\[Beta]\>\"", 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.817484734421307*^9, 3.817484735270499*^9}, 
+   3.817545489134838*^9, {3.8175474553755703`*^9, 3.8175474577269487`*^9}},
+ CellLabel->"In[23]:=",ExpressionUUID->"b4e16a0a-53ca-44e2-9ec2-768965470af7"],
+
+Cell[BoxData[
+ DynamicModuleBox[{$CellContext`ttt$$ = Association[
+  "turn" -> 3, "won" -> False, "board" -> {{1, 0, 0}, {0, 2, 0}, {0, 0, 1}}]}, 
+  TemplateBox[{TagBox[
+     DynamicBox[
+      ToBoxes[
+       $CellContext`TicTacToe["visualisation", $CellContext`ttt$$], 
+       StandardForm]], 
+     EventHandlerTag[{
+      "MouseClicked" :> ($CellContext`TicTacToe["move", $CellContext`ttt$$, 
+         Evaluate[
+          Round[# + 0.5]]]& )[
+         MousePosition["EventHandlerAutomatic"]], Method -> "Preemptive", 
+       PassEventsDown -> Automatic, PassEventsUp -> True}]],TagBox[
+     GridBox[{{
+        ButtonBox[
+        "\"Restart\"", 
+         ButtonFunction :> ($CellContext`ttt$$ = $CellContext`TicTacToe[
+           "start"]), Appearance -> Automatic, Evaluator -> Automatic, Method -> 
+         "Preemptive"]}, {
+        ButtonBox[
+        "\"Save\"", 
+         ButtonFunction :> ($CellContext`ttt1 = $CellContext`ttt$$), 
+         Appearance -> Automatic, Evaluator -> Automatic, Method -> 
+         "Preemptive"]}, {
+        ButtonBox["\"MiniMax - steps\"", ButtonFunction :> Print[
+           $CellContext`MiniMax\[Alpha]\[Beta]TTT[$CellContext`ttt$$, 1, Mod[
+              $CellContext`ttt$$["turn"], 2] == 0]], Appearance -> Automatic, 
+         Evaluator -> Automatic, Method -> "Preemptive"]}, {
+        ButtonBox[
+        "\"MiniMax - move\"", 
+         ButtonFunction :> $CellContext`TicTacToe[
+          "move", $CellContext`ttt$$, 
+           Evaluate[
+            If[$CellContext`ttt$$["turn"] == 0, 
+             RandomInteger[{1, 3}, 2], 
+             First[
+              $CellContext`MiniMax\[Alpha]\[Beta]TTT[$CellContext`ttt$$, 1, 
+               Mod[
+                 $CellContext`ttt$$["turn"], 2] == 0]]]]], Appearance -> 
+         Automatic, Evaluator -> Automatic, Method -> "Preemptive"]}}, 
+      GridBoxAlignment -> {"Columns" -> {{Left}}}, DefaultBaseStyle -> 
+      "Column", 
+      GridBoxItemSize -> {
+       "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Column"]},
+   "Labeled",
+   DisplayFunction->(GridBox[{{
+       TagBox[
+        ItemBox[
+         PaneBox[
+          TagBox[#, "SkipImageSizeLevel"], Alignment -> {Center, Baseline}, 
+          BaselinePosition -> Baseline], DefaultBaseStyle -> "Labeled"], 
+        "SkipImageSizeLevel"]}, {
+       ItemBox[#2, DefaultBaseStyle -> "LabeledLabel"]}}, 
+     GridBoxAlignment -> {"Columns" -> {{Center}}, "Rows" -> {{Center}}}, 
+     AutoDelete -> False, 
+     GridBoxItemSize -> {"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+      BaselinePosition -> {1, 1}]& ),
+   InterpretationFunction->(RowBox[{"Labeled", "[", 
+      RowBox[{#, ",", #2, ",", "Bottom"}], "]"}]& )],
+  DynamicModuleValues:>{}]], "Output",
+ CellChangeTimes->{
+  3.817545633031444*^9, 3.817546104788021*^9, 3.817546189159169*^9, 
+   3.817546516560314*^9, 3.8175469632686977`*^9, 3.817547458205338*^9, {
+   3.8175475426501617`*^9, 3.817547572030156*^9}, 3.817547937621838*^9, 
+   3.8175483119453163`*^9, 3.817548444396888*^9, 3.817548490574203*^9, 
+   3.817549334925706*^9, 3.817549564698248*^9, 3.817564094976884*^9, 
+   3.817565304962367*^9, 3.817565524056747*^9, 3.817642863636046*^9, 
+   3.817644471791902*^9, 3.817646080504567*^9, 3.817647452209569*^9, 
+   3.81764983021054*^9, 3.8176508911615353`*^9, 3.8176553434816093`*^9},
+ CellLabel->"Out[23]=",ExpressionUUID->"1c1ea011-2757-4fcf-8a98-4ae2e5a9d47d"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3. Game Full ", "Chapter",
+ CellChangeTimes->{{3.817463209545269*^9, 3.817463222478924*^9}, 
+   3.817482964053069*^9, {3.817546567235203*^9, 3.817546570202014*^9}, {
+   3.8175474219189796`*^9, 3.817547425951079*^9}, {3.817561471570331*^9, 
+   3.817561472334247*^9}, {3.817565234607628*^9, 
+   3.817565236069056*^9}},ExpressionUUID->"ec25c822-5cb7-4128-95fc-\
+f48700f5b8bd"],
+
+Cell[CellGroupData[{
+
+Cell["Interaction", "Subsection",
+ CellChangeTimes->{{3.817481259204513*^9, 
+  3.8174812661617804`*^9}},ExpressionUUID->"6e9a3783-a7fb-4d82-ba9a-\
+914bf8d78819"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TicTacToe", "[", 
+   RowBox[{"\"\<interaction\>\"", ",", "ttt_Symbol", ",", "player_"}], "]"}], 
+  ":=", "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"ClickPane", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"Dynamic", "@", 
+       RowBox[{"TicTacToe", "[", 
+        RowBox[{"\"\<visualisation\>\"", ",", "ttt"}], "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"(", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"If", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"1", "+", 
+             RowBox[{"Mod", "[", 
+              RowBox[{
+               RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], "]"}]}],
+             "\[Equal]", "player"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"TicTacToe", "[", 
+             RowBox[{"\"\<move\>\"", ",", "ttt", ",", 
+              RowBox[{"Evaluate", "[", 
+               RowBox[{"Round", "[", 
+                RowBox[{"#", "+", "0.5"}], "]"}], "]"}]}], "]"}], ";"}]}], 
+          "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+         RowBox[{"FinishDynamic", "[", "]"}], ";", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"1", "+", 
+             RowBox[{"Mod", "[", 
+              RowBox[{
+               RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], "]"}]}],
+             "\[NotEqual]", "player"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"TicTacToe", "[", 
+             RowBox[{"\"\<move\>\"", ",", "ttt", ",", 
+              RowBox[{"Evaluate", "[", 
+               RowBox[{"First", "[", 
+                RowBox[{"MiniMax\[Alpha]\[Beta]TTT", "[", 
+                 RowBox[{"ttt", ",", "1", ",", 
+                  RowBox[{
+                   RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], 
+                    "]"}], "\[Equal]", "0"}]}], "]"}], "]"}], "]"}]}], "]"}], 
+            ";"}]}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+        ")"}], "&"}]}], "]"}]}], "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.817463281611579*^9, 3.817463348975194*^9}, {
+   3.817463383659452*^9, 3.817463386741486*^9}, {3.8174635162359667`*^9, 
+   3.8174636113934107`*^9}, {3.817463697358056*^9, 3.817463703337103*^9}, {
+   3.8174638611645613`*^9, 3.817463998114504*^9}, {3.817464059088797*^9, 
+   3.817464083455476*^9}, {3.817464115577796*^9, 3.817464129431506*^9}, {
+   3.817464777183216*^9, 3.817464801829544*^9}, 3.817464849870632*^9, {
+   3.817465085026537*^9, 3.817465114019084*^9}, 3.817465153920467*^9, {
+   3.8174662181763983`*^9, 3.817466275037512*^9}, {3.817467312948801*^9, 
+   3.817467313983382*^9}, {3.817478886913508*^9, 3.817478908101369*^9}, {
+   3.81747894687777*^9, 3.817479041478735*^9}, {3.8174790739093637`*^9, 
+   3.817479240647584*^9}, {3.817479271785612*^9, 3.817479300426736*^9}, 
+   3.8174793455813704`*^9, {3.817479395973516*^9, 3.817479396741897*^9}, {
+   3.817479474226112*^9, 3.8174795135470533`*^9}, {3.817479546935424*^9, 
+   3.81747959889567*^9}, 3.8174807174592867`*^9, {3.8174812776997213`*^9, 
+   3.817481280658893*^9}, {3.81748135182663*^9, 3.81748144506569*^9}, {
+   3.817481484272073*^9, 3.8174814979460917`*^9}, {3.81748156621402*^9, 
+   3.817481634717101*^9}, {3.8174816820505342`*^9, 3.817481686648734*^9}, {
+   3.817481738002775*^9, 3.8174817577298813`*^9}, {3.817481809480851*^9, 
+   3.8174818389170427`*^9}, {3.817482006439329*^9, 3.817482022870064*^9}, {
+   3.8174821320114937`*^9, 3.817482146419614*^9}, {3.817482331543583*^9, 
+   3.8174823520234737`*^9}, {3.8174824272153597`*^9, 3.817482449290661*^9}, {
+   3.817483170860976*^9, 3.817483210405602*^9}, 3.81748328641068*^9, {
+   3.817483369467897*^9, 3.817483384094862*^9}, {3.817483749833619*^9, 
+   3.817483752068894*^9}, {3.817483784674518*^9, 3.817483784876657*^9}, {
+   3.8174838774986563`*^9, 3.8174838873226213`*^9}, {3.817484797402018*^9, 
+   3.817484803659136*^9}, {3.817562084012636*^9, 3.817562086865449*^9}, {
+   3.8175622160920677`*^9, 3.817562304510524*^9}, {3.8175623588151484`*^9, 
+   3.8175623653714457`*^9}, {3.817562558175742*^9, 3.817562561313382*^9}, {
+   3.817562646757449*^9, 3.817562657854643*^9}, {3.8175626892388563`*^9, 
+   3.817562712188644*^9}, {3.817562820738146*^9, 3.817562822977929*^9}, {
+   3.817562886546383*^9, 3.81756288958764*^9}, {3.817563376093948*^9, 
+   3.8175633768434153`*^9}, {3.8175644701194267`*^9, 3.817564498152856*^9}, {
+   3.817564750120513*^9, 3.817564753206183*^9}, {3.817564816487587*^9, 
+   3.817564832547123*^9}},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[24]:=",ExpressionUUID->"b6016273-3044-4457-bc2a-3bada0e8e128"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Game realization", "Subsection",
+ CellChangeTimes->{{3.817481259204513*^9, 3.8174812661617804`*^9}, {
+  3.81756203046865*^9, 3.8175620309052896`*^9}, {3.81756521768545*^9, 
+  3.8175652223751497`*^9}},ExpressionUUID->"094d3e8f-7cfe-481d-ad22-\
+07af41e8fc60"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TicTacToe", "[", "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{"DynamicModule", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"ttt", "=", 
+       RowBox[{"TicTacToe", "[", "\"\<start\>\"", "]"}]}], ",", 
+      RowBox[{"player", "=", "1"}]}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"Labeled", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"TicTacToe", "[", 
+       RowBox[{"\"\<interaction\>\"", ",", "ttt", ",", "player"}], "]"}], ",",
+       "\[IndentingNewLine]", 
+      RowBox[{"Column", "[", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"Button", "[", 
+          RowBox[{"\"\<Restart\>\"", ",", 
+           RowBox[{
+            RowBox[{"ttt", "=", 
+             RowBox[{"TicTacToe", "[", "\"\<start\>\"", "]"}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"If", "[", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"player", "\[Equal]", "2"}], ",", 
+              RowBox[{
+               RowBox[{"TicTacToe", "[", 
+                RowBox[{"\"\<move\>\"", ",", "ttt", ",", 
+                 RowBox[{"Evaluate", "[", 
+                  RowBox[{"RandomInteger", "[", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "3"}], "}"}], ",", "2"}], "]"}], 
+                  "]"}]}], "]"}], ";"}]}], "\[IndentingNewLine]", "]"}]}]}], 
+          "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"Button", "[", 
+          RowBox[{"\"\<Save -> ttt1\>\"", ",", 
+           RowBox[{"ttt1", "=", "ttt"}]}], "]"}], ",", "\[IndentingNewLine]", 
+         
+         RowBox[{"Row", "[", 
+          RowBox[{"{", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Button", "[", 
+             RowBox[{"\"\<player - X\>\"", ",", 
+              RowBox[{
+               RowBox[{"player", "=", "1"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"If", "[", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"1", "+", 
+                   RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], 
+                    "]"}]}], "\[NotEqual]", "player"}], ",", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{"TicTacToe", "[", 
+                   RowBox[{"\"\<move\>\"", ",", "ttt", ",", 
+                    RowBox[{"Evaluate", "[", 
+                    RowBox[{"First", "[", 
+                    RowBox[{"MiniMax\[Alpha]\[Beta]TTT", "[", 
+                    RowBox[{"ttt", ",", "1", ",", 
+                    RowBox[{
+                    RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], 
+                    "]"}], "\[Equal]", "0"}]}], "]"}], "]"}], "]"}]}], "]"}], 
+                  ";"}]}], "\[IndentingNewLine]", "]"}], ";"}]}], 
+             "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"Button", "[", 
+             RowBox[{"\"\<player - O\>\"", ",", 
+              RowBox[{
+               RowBox[{"player", "=", "2"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"If", "[", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"1", "+", 
+                   RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], 
+                    "]"}]}], "\[NotEqual]", "player"}], ",", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{"TicTacToe", "[", 
+                   RowBox[{"\"\<move\>\"", ",", "ttt", ",", 
+                    RowBox[{"Evaluate", "[", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], "\[Equal]", 
+                    "0"}], ",", 
+                    RowBox[{"RandomInteger", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "3"}], "}"}], ",", "2"}], "]"}], ",", 
+                    RowBox[{"First", "[", 
+                    RowBox[{"MiniMax\[Alpha]\[Beta]TTT", "[", 
+                    RowBox[{"ttt", ",", "1", ",", 
+                    RowBox[{
+                    RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"ttt", "[", "\"\<turn\>\"", "]"}], ",", "2"}], 
+                    "]"}], "\[Equal]", "0"}]}], "]"}], "]"}]}], "]"}], 
+                    "]"}]}], "]"}], ";"}]}], "\[IndentingNewLine]", "]"}], 
+               ";"}]}], "\[IndentingNewLine]", "]"}]}], "}"}], "]"}]}], 
+        "\[IndentingNewLine]", "}"}], "]"}], ",", "\[IndentingNewLine]", 
+      "Bottom"}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.817463281611579*^9, 3.817463348975194*^9}, {
+   3.817463383659452*^9, 3.817463386741486*^9}, {3.8174635162359667`*^9, 
+   3.8174636113934107`*^9}, {3.817463697358056*^9, 3.817463703337103*^9}, {
+   3.8174638611645613`*^9, 3.817463998114504*^9}, {3.817464059088797*^9, 
+   3.817464083455476*^9}, {3.817464115577796*^9, 3.817464129431506*^9}, {
+   3.817464777183216*^9, 3.817464801829544*^9}, 3.817464849870632*^9, {
+   3.817465085026537*^9, 3.817465114019084*^9}, 3.817465153920467*^9, {
+   3.8174662181763983`*^9, 3.817466275037512*^9}, {3.817467312948801*^9, 
+   3.817467313983382*^9}, {3.817478886913508*^9, 3.817478908101369*^9}, {
+   3.81747894687777*^9, 3.817479041478735*^9}, {3.8174790739093637`*^9, 
+   3.817479240647584*^9}, {3.817479271785612*^9, 3.817479300426736*^9}, 
+   3.8174793455813704`*^9, {3.817479395973516*^9, 3.817479396741897*^9}, {
+   3.817479474226112*^9, 3.8174795135470533`*^9}, {3.817479546935424*^9, 
+   3.81747959889567*^9}, 3.8174807174592867`*^9, {3.8174812776997213`*^9, 
+   3.817481280658893*^9}, {3.81748135182663*^9, 3.81748144506569*^9}, {
+   3.817481484272073*^9, 3.8174814979460917`*^9}, {3.81748156621402*^9, 
+   3.817481634717101*^9}, {3.8174816820505342`*^9, 3.817481686648734*^9}, {
+   3.817481738002775*^9, 3.8174817577298813`*^9}, {3.817481809480851*^9, 
+   3.8174818389170427`*^9}, {3.817482006439329*^9, 3.817482022870064*^9}, {
+   3.8174821320114937`*^9, 3.817482146419614*^9}, {3.817482331543583*^9, 
+   3.8174823520234737`*^9}, {3.8174824272153597`*^9, 3.817482449290661*^9}, {
+   3.817482970492597*^9, 3.8174829745215*^9}, {3.8174830231443768`*^9, 
+   3.817483065066918*^9}, {3.817483248361306*^9, 3.817483279729589*^9}, {
+   3.817483972557137*^9, 3.817483985588641*^9}, {3.8174840519216948`*^9, 
+   3.8174841095571136`*^9}, {3.8174841720606422`*^9, 3.817484176123947*^9}, {
+   3.8174842100538816`*^9, 3.8174842388990307`*^9}, {3.8174844275165997`*^9, 
+   3.817484430452395*^9}, {3.8174846168335037`*^9, 3.817484625984828*^9}, {
+   3.817484724495892*^9, 3.817484784611779*^9}, {3.81748488532159*^9, 
+   3.8174848890382967`*^9}, {3.817484940363678*^9, 3.8174849637351017`*^9}, {
+   3.817485083925465*^9, 3.817485098886294*^9}, {3.817485255602976*^9, 
+   3.8174853450285788`*^9}, {3.817485384718361*^9, 3.8174854487017517`*^9}, {
+   3.817539560412266*^9, 3.817539607328065*^9}, {3.817539654408536*^9, 
+   3.81753965482867*^9}, {3.817539768974656*^9, 3.817539852254862*^9}, {
+   3.81753992029795*^9, 3.8175399291269827`*^9}, {3.817542338885539*^9, 
+   3.8175423428132687`*^9}, {3.8175423853129263`*^9, 3.817542424195537*^9}, {
+   3.8175453746227818`*^9, 3.817545384450008*^9}, {3.8175454224719954`*^9, 
+   3.817545549365817*^9}, {3.817545581688251*^9, 3.8175456088697557`*^9}, {
+   3.817546182017557*^9, 3.817546182399222*^9}, {3.817546444103511*^9, 
+   3.8175465083022537`*^9}, {3.81754684902038*^9, 3.817546952866604*^9}, {
+   3.817547429624588*^9, 3.817547446938773*^9}, {3.817547569242717*^9, 
+   3.817547569531064*^9}, {3.817548487554043*^9, 3.817548488010708*^9}, {
+   3.817549401019383*^9, 3.817549401696347*^9}, {3.81754951410675*^9, 
+   3.8175495175369663`*^9}, {3.817561522104808*^9, 3.8175616352651978`*^9}, {
+   3.817561721536017*^9, 3.8175617248387136`*^9}, {3.81756182143731*^9, 
+   3.8175618928519382`*^9}, {3.8175623997732487`*^9, 3.817562486163851*^9}, {
+   3.8175630365799932`*^9, 3.8175630681997957`*^9}, {3.817563620142256*^9, 
+   3.8175636971729107`*^9}, {3.817563886771999*^9, 3.817563925844545*^9}, {
+   3.817563998303555*^9, 3.817564016305697*^9}, {3.817564175549789*^9, 
+   3.8175641809620667`*^9}, 3.817564461048004*^9, {3.817564503722176*^9, 
+   3.817564504409753*^9}, {3.817564789988275*^9, 3.817564793242957*^9}, {
+   3.817564871373663*^9, 3.817564876133938*^9}, {3.817564955700357*^9, 
+   3.817564958562141*^9}, {3.817565054881019*^9, 3.8175650704860783`*^9}, {
+   3.8175651075349627`*^9, 3.817565138516646*^9}, 3.817565168610483*^9},
+ Background->RGBColor[0.9, 1, 1],
+ CellLabel->"In[25]:=",ExpressionUUID->"c2a65078-9432-4b18-a033-315370b3bee5"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["", "Subsection",
+ CellChangeTimes->{{3.817565212359717*^9, 3.817565213462043*^9}, 
+   3.8176461604800577`*^9},ExpressionUUID->"a96e7aeb-a0ef-46d6-9570-\
+73dd90a8be36"],
+
+Cell["1-\:044b\:0435 \:0445\:043e\:0434\:044b \:043c\:043e\:0433\:0443\:0442 \
+\:0447\:0443\:0442\:044c \:0442\:043e\:0440\:043c\:043e\:0437\:0438\:0442\
+\:044c", "Text",
+ CellChangeTimes->{{3.8176498557258453`*^9, 
+  3.817649865392873*^9}},ExpressionUUID->"10a61eb1-2da8-4a27-b448-\
+d3adbfe3c89c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"TicTacToe", "[", "]"}]], "Input",
+ CellLabel->"In[26]:=",ExpressionUUID->"ee22bb73-d22b-4fac-a384-5996142a2388"],
+
+Cell[BoxData[
+ DynamicModuleBox[{$CellContext`ttt$$ = Association[
+  "turn" -> 7, "won" -> 1, 
+   "board" -> {{1, 2, 1}, {2, 1, 0}, {1, 0, 2}}], $CellContext`player$$ = 1}, 
+  
+  TemplateBox[{TagBox[
+     DynamicBox[
+      ToBoxes[
+       $CellContext`TicTacToe["visualisation", $CellContext`ttt$$], 
+       StandardForm]], 
+     EventHandlerTag[{"MouseClicked" :> ((If[1 + Mod[
+             $CellContext`ttt$$["turn"], 
+             2] == $CellContext`player$$, $CellContext`TicTacToe[
+           "move", $CellContext`ttt$$, 
+            Evaluate[
+             Round[# + 0.5]]]; Null]; FinishDynamic[]; If[1 + Mod[
+             $CellContext`ttt$$["turn"], 
+             2] != $CellContext`player$$, $CellContext`TicTacToe[
+           "move", $CellContext`ttt$$, 
+            Evaluate[
+             First[
+              $CellContext`MiniMax\[Alpha]\[Beta]TTT[$CellContext`ttt$$, 1, 
+               Mod[
+                 $CellContext`ttt$$["turn"], 2] == 0]]]]; Null])& )[
+         MousePosition["EventHandlerAutomatic"]], Method -> "Preemptive", 
+       PassEventsDown -> Automatic, PassEventsUp -> True}]],TagBox[
+     GridBox[{{
+        ButtonBox[
+        "\"Restart\"", 
+         ButtonFunction :> ($CellContext`ttt$$ = $CellContext`TicTacToe[
+            "start"]; 
+          If[$CellContext`player$$ == 
+            2, $CellContext`TicTacToe["move", $CellContext`ttt$$, 
+              Evaluate[
+               RandomInteger[{1, 3}, 2]]]; Null]), Appearance -> Automatic, 
+         Evaluator -> Automatic, Method -> "Preemptive"]}, {
+        ButtonBox[
+        "\"Save -> ttt1\"", 
+         ButtonFunction :> ($CellContext`ttt1 = $CellContext`ttt$$), 
+         Appearance -> Automatic, Evaluator -> Automatic, Method -> 
+         "Preemptive"]}, {
+        TemplateBox[{
+          ButtonBox[
+          "\"player - X\"", 
+           ButtonFunction :> ($CellContext`player$$ = 1; If[1 + Mod[
+                 $CellContext`ttt$$["turn"], 
+                 2] != $CellContext`player$$, $CellContext`TicTacToe[
+               "move", $CellContext`ttt$$, 
+                Evaluate[
+                 First[
+                  $CellContext`MiniMax\[Alpha]\[Beta]TTT[$CellContext`ttt$$, 
+                   1, Mod[
+                    $CellContext`ttt$$["turn"], 2] == 0]]]]; Null]; Null), 
+           Appearance -> Automatic, Evaluator -> Automatic, Method -> 
+           "Preemptive"], 
+          ButtonBox[
+          "\"player - O\"", 
+           ButtonFunction :> ($CellContext`player$$ = 2; If[1 + Mod[
+                 $CellContext`ttt$$["turn"], 
+                 2] != $CellContext`player$$, $CellContext`TicTacToe[
+               "move", $CellContext`ttt$$, 
+                Evaluate[
+                 If[$CellContext`ttt$$["turn"] == 0, 
+                  RandomInteger[{1, 3}, 2], 
+                  First[
+                   $CellContext`MiniMax\[Alpha]\[Beta]TTT[$CellContext`ttt$$, 
+                    1, Mod[
+                    $CellContext`ttt$$["turn"], 2] == 0]]]]]; Null]; Null), 
+           Appearance -> Automatic, Evaluator -> Automatic, Method -> 
+           "Preemptive"]}, "RowDefault"]}}, 
+      GridBoxAlignment -> {"Columns" -> {{Left}}}, DefaultBaseStyle -> 
+      "Column", 
+      GridBoxItemSize -> {
+       "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Column"]},
+   "Labeled",
+   DisplayFunction->(GridBox[{{
+       TagBox[
+        ItemBox[
+         PaneBox[
+          TagBox[#, "SkipImageSizeLevel"], Alignment -> {Center, Baseline}, 
+          BaselinePosition -> Baseline], DefaultBaseStyle -> "Labeled"], 
+        "SkipImageSizeLevel"]}, {
+       ItemBox[#2, DefaultBaseStyle -> "LabeledLabel"]}}, 
+     GridBoxAlignment -> {"Columns" -> {{Center}}, "Rows" -> {{Center}}}, 
+     AutoDelete -> False, 
+     GridBoxItemSize -> {"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+      BaselinePosition -> {1, 1}]& ),
+   InterpretationFunction->(RowBox[{"Labeled", "[", 
+      RowBox[{#, ",", #2, ",", "Bottom"}], "]"}]& )],
+  DynamicModuleValues:>{}]], "Output",
+ CellChangeTimes->{
+  3.817564050949472*^9, 3.8175641871465*^9, 3.817564507436054*^9, 
+   3.817564758783781*^9, 3.8175647950926933`*^9, 3.817564835281725*^9, 
+   3.817564880420946*^9, {3.817564943744362*^9, 3.817564963163478*^9}, 
+   3.817565144991108*^9, 3.817565524179369*^9, 3.817644471908451*^9, 
+   3.817646080638071*^9, 3.817647452269722*^9, 3.81764983026713*^9, 
+   3.817650891224764*^9, 3.817655343565906*^9},
+ CellLabel->"Out[26]=",ExpressionUUID->"8f21c3d1-8c4e-4e0c-b114-ca99aa24d0b9"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1131, 833},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"11.3 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 5, \
+2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 213, 4, 98, "Title",ExpressionUUID->"44875a3a-6bd3-4bd0-90d6-1de7edafad95"],
+Cell[796, 28, 653, 13, 81, "Text",ExpressionUUID->"73b1c18e-52ff-4d75-b9e6-299db7c9fb1c"],
+Cell[CellGroupData[{
+Cell[1474, 45, 151, 3, 69, "Chapter",ExpressionUUID->"c2fb55bf-75b6-489e-b9a5-261ac30075f6"],
+Cell[1628, 50, 574, 15, 35, "Text",ExpressionUUID->"ac0c58e9-4b27-452b-bc08-b624973f67fc"],
+Cell[2205, 67, 432, 8, 35, "Text",ExpressionUUID->"ba6238df-6aa2-4190-b118-d6b9eaced2cb"],
+Cell[2640, 77, 748, 13, 35, "Text",ExpressionUUID->"ecb6d9d8-66ea-412e-9604-c3296bf0bf20"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3425, 95, 210, 4, 69, "Chapter",ExpressionUUID->"1f985bc7-380b-4116-b572-12f9465b0ee2"],
+Cell[CellGroupData[{
+Cell[3660, 103, 474, 7, 53, "Subsection",ExpressionUUID->"b2a19018-b9d7-4308-aa93-653b0023ef61"],
+Cell[CellGroupData[{
+Cell[4159, 114, 617, 13, 32, "Item",ExpressionUUID->"39a1efd8-b1dc-4c81-91c8-f3aa3ac36d43"],
+Cell[4779, 129, 331, 7, 32, "Item",ExpressionUUID->"b997324d-0c27-44f9-8303-1af08909ee3c"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5159, 142, 472, 7, 53, "Subsection",ExpressionUUID->"53bf3f4e-8a6a-40cf-aeb1-72c6cbedfcb8"],
+Cell[CellGroupData[{
+Cell[5656, 153, 321, 5, 32, "Item",ExpressionUUID->"7b3ef008-8737-4a34-bad4-6f3c15eaf7b2"],
+Cell[5980, 160, 321, 5, 32, "Item",ExpressionUUID->"fdb01b23-c902-4729-a1da-b99735819863"],
+Cell[6304, 167, 324, 5, 32, "Item",ExpressionUUID->"850b8cfb-f43b-483e-a1b6-7e374131a7cb"]
+}, Open  ]]
+}, Open  ]],
+Cell[6655, 176, 614, 9, 53, "Subsection",ExpressionUUID->"9fb6e63e-590b-4d13-8156-ea83ec6fa6cc"],
+Cell[CellGroupData[{
+Cell[7294, 189, 645, 9, 37, "Subsection",ExpressionUUID->"f3f4c205-4b78-430c-9471-94e256c31bf8"],
+Cell[CellGroupData[{
+Cell[7964, 202, 337, 8, 32, "Item",ExpressionUUID->"168daf44-5155-45eb-bfc6-3d8fc6a6dea9"],
+Cell[8304, 212, 380, 8, 32, "Item",ExpressionUUID->"5849334f-6665-4537-a6e5-01f66fa42193"]
+}, Open  ]]
+}, Open  ]],
+Cell[8711, 224, 504, 8, 53, "Subsection",ExpressionUUID->"25539d6f-d15b-4187-b52d-aa694001ad32"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9252, 237, 270, 4, 69, "Chapter",ExpressionUUID->"a32318d4-f932-42ab-8416-3d2fff0add37"],
+Cell[CellGroupData[{
+Cell[9547, 245, 157, 3, 65, "Subchapter",ExpressionUUID->"ac985a42-7617-4563-a4e5-b688046412ed"],
+Cell[CellGroupData[{
+Cell[9729, 252, 162, 3, 54, "Subsection",ExpressionUUID->"75d775ab-f868-4ca8-9761-9e0c6c900701"],
+Cell[9894, 257, 1226, 23, 173, "Input",ExpressionUUID->"b2ae8e08-9b5e-478c-950a-4d5a456b5823"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11157, 285, 258, 4, 54, "Subsection",ExpressionUUID->"2ce33930-1682-492e-9bc8-d1b217a292a7"],
+Cell[11418, 291, 3972, 85, 383, "Input",ExpressionUUID->"c7459829-ff0b-48b7-b6b2-434d0a108c4b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15427, 381, 210, 4, 54, "Subsection",ExpressionUUID->"16ffb179-c2e0-4e60-8dc4-4834e7abb0eb"],
+Cell[15640, 387, 1971, 42, 131, "Input",ExpressionUUID->"a5741d0a-e668-4bb4-ab0f-9c572c962bc0"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17660, 435, 166, 3, 65, "Subchapter",ExpressionUUID->"24ee62ce-1ab1-4a6d-9d24-4b089983ee96"],
+Cell[CellGroupData[{
+Cell[17851, 442, 169, 3, 54, "Subsection",ExpressionUUID->"18b909eb-8582-4074-88df-cb4272fd61ec"],
+Cell[CellGroupData[{
+Cell[18045, 449, 215, 4, 45, "Subsubsection",ExpressionUUID->"db8e2f85-2b26-44e6-8b54-1ab2ac6a4e30"],
+Cell[18263, 455, 1399, 31, 131, "Input",ExpressionUUID->"347060e1-e95a-4fac-bb9c-806df4243276"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19699, 491, 216, 4, 45, "Subsubsection",ExpressionUUID->"b8962d9e-89c4-4463-a65f-a0fdb04888d7"],
+Cell[19918, 497, 1031, 28, 68, "Input",ExpressionUUID->"695f267a-82ef-4a25-8b6c-ba7108725531"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20986, 530, 164, 3, 45, "Subsubsection",ExpressionUUID->"9c24f5fd-82fd-40e1-9d40-6e1b13046ac5"],
+Cell[21153, 535, 3503, 77, 425, "Input",ExpressionUUID->"e1f93091-ffc0-4b5a-a4c2-111141e3189b"]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[24705, 618, 161, 3, 38, "Subsection",ExpressionUUID->"42530c27-888e-4317-8fb3-245974738781"],
+Cell[24869, 623, 2803, 49, 173, "Input",ExpressionUUID->"534749ed-f352-4686-982e-98f5e9d88aed"]
+}, Closed]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[27721, 678, 253, 4, 49, "Subchapter",ExpressionUUID->"e392c088-bb12-4f7a-a61c-fe9edb65e63d"],
+Cell[27977, 684, 3518, 58, 173, "Input",ExpressionUUID->"884dba0b-2c5e-4be8-bd6f-8184264844ce"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[31532, 747, 247, 4, 49, "Subchapter",ExpressionUUID->"84163340-231f-4876-8dde-45a5ae28f72d"],
+Cell[CellGroupData[{
+Cell[31804, 755, 218, 3, 30, "Input",ExpressionUUID->"0362e0d4-59e5-47be-9481-5eb51b86ba7c"],
+Cell[32025, 760, 2315, 45, 248, "Output",ExpressionUUID->"14cd7508-130f-4dcb-ad44-cb237bf7594b"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[34401, 812, 263, 4, 69, "Chapter",ExpressionUUID->"3a770689-0367-4446-8308-035e7c20ed8a"],
+Cell[CellGroupData[{
+Cell[34689, 820, 331, 5, 65, "Subchapter",ExpressionUUID->"f6974bc4-04fc-4388-b151-f595bf502702"],
+Cell[CellGroupData[{
+Cell[35045, 829, 215, 4, 54, "Subsection",ExpressionUUID->"af6f9231-863d-4d38-90c0-2e8c18070a47"],
+Cell[35263, 835, 1033, 22, 68, "Input",ExpressionUUID->"4f051b35-6e29-441d-a671-f31870ef9201"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[36333, 862, 166, 3, 54, "Subsection",ExpressionUUID->"811be843-9405-4339-8d78-bf0b30c952a0"],
+Cell[36502, 867, 571, 12, 46, "Input",ExpressionUUID->"4c81d6ac-92d7-49c5-a1d8-6173c2bdbb54"]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[37122, 885, 313, 5, 49, "Subchapter",ExpressionUUID->"20ae935f-f8ae-4600-8b8f-e6eec79f9997"],
+Cell[CellGroupData[{
+Cell[37460, 894, 174, 3, 54, "Subsection",ExpressionUUID->"97147127-dcc0-4f31-ad8a-33f4e73861e8"],
+Cell[37637, 899, 6817, 145, 656, "Input",ExpressionUUID->"a596a7f5-fa32-4138-b977-f39c6477cdb8"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[44491, 1049, 239, 4, 38, "Subsection",ExpressionUUID->"80666fa9-2648-463d-b7f6-ce8fe332b287"],
+Cell[44733, 1055, 5616, 103, 320, "Input",ExpressionUUID->"89eabebd-1129-4929-a9a1-c531d6aaf172"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[50386, 1163, 295, 5, 38, "Subsection",ExpressionUUID->"069c9bf8-8085-420e-926e-c8437f55614a"],
+Cell[50684, 1170, 415, 8, 35, "Text",ExpressionUUID->"0100f6ea-0026-4336-9704-207b6bcc0380"],
+Cell[CellGroupData[{
+Cell[51124, 1182, 250, 4, 30, "Input",ExpressionUUID->"16ff01eb-80bc-4c5d-b71a-19e1861c7697"],
+Cell[51377, 1188, 3218, 67, 345, "Output",ExpressionUUID->"0e82a1b8-3303-400b-82dc-1fc2f2597413"],
+Cell[54598, 1257, 413, 12, 24, "Print",ExpressionUUID->"8d660cb2-865c-48e2-ae44-8caa27da257b"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[55072, 1276, 410, 6, 65, "Subchapter",ExpressionUUID->"7c2d85cf-7850-4138-88f1-91c43102498e"],
+Cell[CellGroupData[{
+Cell[55507, 1286, 186, 3, 54, "Subsection",ExpressionUUID->"39b71861-ac30-48b6-b84b-97bc829e9e85"],
+Cell[55696, 1291, 9371, 184, 824, "Input",ExpressionUUID->"82626c8b-fbf7-459f-9a6f-07eed2cf3fc9"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[65104, 1480, 294, 5, 38, "Subsection",ExpressionUUID->"5992e701-c048-4fa0-b77b-112ac199faf4"],
+Cell[65401, 1487, 5894, 107, 320, "Input",ExpressionUUID->"b01dd50a-fb0c-4b6f-b2ed-5f115e2d51cf"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[71332, 1599, 295, 5, 38, "Subsection",ExpressionUUID->"2929db17-34a9-4ab7-a2d8-f880a3023a3d"],
+Cell[CellGroupData[{
+Cell[71652, 1608, 318, 5, 30, "Input",ExpressionUUID->"b4e16a0a-53ca-44e2-9ec2-768965470af7"],
+Cell[71973, 1615, 3395, 70, 345, "Output",ExpressionUUID->"1c1ea011-2757-4fcf-8a98-4ae2e5a9d47d"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[75441, 1693, 379, 6, 69, "Chapter",ExpressionUUID->"ec25c822-5cb7-4128-95fc-f48700f5b8bd"],
+Cell[CellGroupData[{
+Cell[75845, 1703, 161, 3, 54, "Subsection",ExpressionUUID->"6e9a3783-a7fb-4d82-ba9a-914bf8d78819"],
+Cell[76009, 1708, 4876, 89, 341, "Input",ExpressionUUID->"b6016273-3044-4457-bc2a-3bada0e8e128"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[80922, 1802, 263, 4, 38, "Subsection",ExpressionUUID->"094d3e8f-7cfe-481d-ad22-07af41e8fc60"],
+Cell[81188, 1808, 9014, 164, 656, "Input",ExpressionUUID->"c2a65078-9432-4b18-a033-315370b3bee5"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[90239, 1977, 173, 3, 38, "Subsection",ExpressionUUID->"a96e7aeb-a0ef-46d6-9570-73dd90a8be36"],
+Cell[90415, 1982, 298, 5, 35, "Text",ExpressionUUID->"10a61eb1-2da8-4a27-b448-d3adbfe3c89c"],
+Cell[CellGroupData[{
+Cell[90738, 1991, 136, 2, 30, "Input",ExpressionUUID->"ee22bb73-d22b-4fac-a384-5996142a2388"],
+Cell[90877, 1995, 4502, 97, 313, "Output",ExpressionUUID->"8f21c3d1-8c4e-4e0c-b114-ca99aa24d0b9"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
